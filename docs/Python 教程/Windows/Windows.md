@@ -210,7 +210,7 @@ Pico.
 
 ![](media/b96b7318b5a7424943a921579df1f9e0.png)
 
-（3）单击![](media/f79b2c42507d12b91ca23ea0bb87c5c2.png)“运行当前脚本”来执行程序“Hello World!”, "Welcome keyes" 将打印在“Shell”窗口。
+（3）单击![](media/f79b2c42507d12b91ca23ea0bb87c5c2.png)“运行当前脚本”来执行程序“Hello World!”, "Welcome Keyestudio" 将打印在“Shell”窗口。
 
 ![](media/4bd8b5e357fd0add80c33d6d754bbb19.png)
 
@@ -416,7 +416,7 @@ Raspberry Pi Pico的根目录。
 
 ![](media/b96b7318b5a7424943a921579df1f9e0.png)
 
-3.单击![](media/f79b2c42507d12b91ca23ea0bb87c5c2.png)“运行当前脚本”来执行程序“Hello World!”, "Welcome keyes" 将打印在“Shell”窗口。
+3.单击![](media/f79b2c42507d12b91ca23ea0bb87c5c2.png)“运行当前脚本”来执行程序“Hello World!”, "Welcome Keyestudio" 将打印在“Shell”窗口。
 
 ![](media/4bd8b5e357fd0add80c33d6d754bbb19.png)
 
@@ -430,7 +430,7 @@ Raspberry Pi Pico的根目录。
 5.项目代码：
 
 print("Hello World!") 
-print("Welcome keyes")
+print("Welcome Keyestudio")
 
 ### 项目 02：板载灯闪烁
 
@@ -559,15 +559,15 @@ LED是一种被称为“发光二极管”的半导体，是一种由半导体�
 
 在这个套件中，我们提供了3个具有不同电阻值的五色环电阻。这里以3个五色环电阻为例：
 
-220Ω 电阻*10
+220Ω 电阻\*10
 
 ![](media/793740d0b936e516ca354111e2d0eb79.png)
 
-10KΩ 电阻*10
+10KΩ 电阻\*10
 
 ![](media/18484e5d16b6d89c63825cc2efa6a543.png)
 
-1KΩ 电阻*10
+1KΩ 电阻\*10
 
 ![](media/8088ed382616afb346d44f5aacfb52d1.png)
 
@@ -599,7 +599,7 @@ I = U / R = 3 V / 10 KΩ= 0.0003A= 0.3mA。
 
 中间部分宽条的连接孔分为上下两部分，是面包板的主工作区，用来插接原件和跳线。在同一列中的5个插孔（即a-b-c-d-e，f-g-h-i-j）是互相连通的；列和列之间以及凹槽上下部分是不连通的。在做实验的时候，通常是使用两窄一宽组成的小单元，在宽条部分搭接电路的主体部分，上面的窄条取一行做电源，下面的窄条取一行做接地。中间宽条用于连接电路，由于凹槽上下是不连通的，所以集成块一般跨插在凹槽上。
 
-（4）keyes 树莓派Pico板的扩展板使用方法
+（4）keyestudio 树莓派Pico板的扩展板使用方法
 
 将树莓派Pico板堆叠在扩展板上即可使用，如下图：
 
@@ -1612,7 +1612,7 @@ LCD_128X32_DOT技术参数：
 
 ![](media/f6c52c74beb5ddbc587dad2d620b7b83.png)
 
-单击![](media/da852227207616ccd9aff28f19e02690.png)“运行当前脚本”，代码开始执行，你会看到的现象是：128X32LCD模块显示屏第一行显示“keyes”、第二行显示“ABCDEFGHIJKLMNOPQR”、第三行显示“123456789+-\*/\<\>=$@”、第四行显示“%^&(){}:;'|?,.~\\\[\]”。按“Ctrl+C”或单击![](media/27451c8a9c13e29d02bc0f5831cfaf1f.png)“停止/重启后端进程”退出程序。
+单击![](media/da852227207616ccd9aff28f19e02690.png)“运行当前脚本”，代码开始执行，你会看到的现象是：128X32LCD模块显示屏第一行显示“KEYESTUDIO”、第二行显示“ABCDEFGHIJKLMNOPQR”、第三行显示“123456789+-\*/\<\>=$@”、第四行显示“%^&(){}:;'|?,.~\\\[\]”。按“Ctrl+C”或单击![](media/27451c8a9c13e29d02bc0f5831cfaf1f.png)“停止/重启后端进程”退出程序。
 
 ![](media/6bffa4c9e8d34b4487d1212e464e8897.png)
 
