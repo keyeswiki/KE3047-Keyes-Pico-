@@ -118,9 +118,6 @@ F - 用于从板接收串行数据并将串行数据发送到板的串行监视
 树莓派Pico板上的指示灯开始闪烁。
 
 ![](media/e12ecf9006915a143134d18d53643ee4.png)
-![](media/6f49241878e04e8ba4edd30fb2714249.png)
-
-1秒
 
 单击工具→端口→COMx(Raspberry Pi Pico)。COMx的X在不同的电脑上是不同的。请在你的电脑上选择正确的COM口。在这个的例子中，它是COM15。
 
@@ -160,7 +157,7 @@ F - 用于从板接收串行数据并将串行数据发送到板的串行监视
 
 在本项目中，我们通过USB线将树莓派Pico板和电脑连接起来。
 
-![](media/bbebdf7f2c0f4c223b6f2548d7ff6607.png)![](media/8ea81d60b8e2132c358041235490b7d5.jpeg)
+![Img](./media/img-20251210143823.png)
 
 在上传项目代码到树莓派Pico板之前，请检查Arduino IDE的配置。
 
@@ -198,7 +195,7 @@ F - 用于从板接收串行数据并将串行数据发送到板的串行监视
 
 在本项目中，我们通过USB线将树莓派Pico板和电脑连接起来
 
-![](media/bbebdf7f2c0f4c223b6f2548d7ff6607.png)![](media/8ea81d60b8e2132c358041235490b7d5.jpeg)
+![Img](./media/img-20251210143823.png)
 
 项目代码：
 
@@ -223,9 +220,6 @@ F - 用于从板接收串行数据并将串行数据发送到板的串行监视
 项目代码上传成功后，利用USB线上电，可以看到的现象是：树莓派Pico板的LED开始闪烁，循环进行。
 
 ![](media/e12ecf9006915a143134d18d53643ee4.png)
-![](media/6f49241878e04e8ba4edd30fb2714249.png)
-
-1秒
 
 ### 项目 03：外接灯闪烁 
 
@@ -286,8 +280,7 @@ LED是一种被称为“发光二极管”的半导体，是一种由半导体�
 
 ![](media/8088ed382616afb346d44f5aacfb52d1.png)
 
-在相同的电压下，会有更小的电流和更大的电阻。电流(I)、电压(U)、电阻(R)之间的联系可以用公式表示：I=U/R。在下图中，假如电压为3V，则通过R1的电流:
-I = U / R = 3 V / 10 KΩ= 0.0003A= 0.3mA。
+在相同的电压下，会有更小的电流和更大的电阻。电流(I)、电压(U)、电阻(R)之间的联系可以用公式表示：I=U/R。在下图中，假如电压为3V，则通过R1的电流:I = U / R = 3 V / 10 KΩ= 0.0003A= 0.3mA。
 
 ![](media/b3eec552e4dfad361833730698621776.png)
 
@@ -338,11 +331,11 @@ I = U / R = 3 V / 10 KΩ= 0.0003A= 0.3mA。
 
 ![](media/cb069d7553d861e3293d8bdbe85bbd05.png)
 
-电路图
+
 
 ![](media/96800765a20d72653a8cd4a9ae12b636.png)
 
-接线图
+
 
 注意:
 
@@ -377,9 +370,7 @@ I = U / R = 3 V / 10 KΩ= 0.0003A= 0.3mA。
 项目代码上传成功后，利用USB线上电，可以看到的现象是：电路中的LED以0.5S的频率开始闪烁，循环进行。
 
 ![](media/77dec960e108229b6d97b4af9a2db902.png)
-![](media/2dcc6a55b77b4175b5175f717eb196c3.png)
 
-0.5秒
 
 ### 项目 04：呼吸灯
 
@@ -470,6 +461,40 @@ PWM占空比越长，输出功率越高。既然我们了解了这种关系，�
 
 项目代码：
 
+```C
+/*
+ * 文件名 : 交通灯
+ * 描述 : 模拟交通灯.
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_LED_RED   16   //定义红色led引脚
+#define PIN_LED_YELLOW   17   //定义黄色led引脚
+#define PIN_LED_GREEN  18   //定义绿色led引脚
+
+void setup() {
+  pinMode(PIN_LED_RED, OUTPUT);
+  pinMode(PIN_LED_YELLOW, OUTPUT);
+  pinMode(PIN_LED_GREEN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(PIN_LED_GREEN, HIGH);// 点亮绿色led
+  delay(5000);// 延时5秒
+  digitalWrite(PIN_LED_GREEN, LOW); // 关闭绿色led
+  for(int i=0;i<3;i++)// 闪烁3次.
+  {
+    delay(500);// 延时0.5秒
+    digitalWrite(PIN_LED_YELLOW, HIGH);// 点亮黄色led灯
+    delay(500);// 延时0.5秒
+    digitalWrite(PIN_LED_YELLOW, LOW);// 关闭黄色led灯
+  } 
+  delay(500);// 延时0.5秒
+  digitalWrite(PIN_LED_RED, HIGH);// 点亮红色led灯
+  delay(5000);// 延时 5 秒
+  digitalWrite(PIN_LED_RED, LOW);// 关闭红色led灯
+  }
+```
+
 项目现象：
 
 项目代码上传成功后，利用USB线上电，可以看到的现象是：1.首先，绿灯会亮5秒，然后熄灭；2.其次，黄灯会闪烁3次，然后熄灭；3.然后，红灯会亮5秒，然后熄灭；4.继续运行上述1-3个步骤。
@@ -511,6 +536,35 @@ RGB led由三种颜色(红、绿、蓝)组成，通过混合这三种基本颜�
 
 我们需要创建三个PWM通道，并使用随机占空比来使RGB LED亮随机颜色灯。
 
+```C
+/*
+ * 文件名 : RGB
+ * 描述 : 使用RGBLED显示随机颜色.
+ * 作者 : www.keyes-robot.com
+*/
+int ledPins[] = {18, 17, 16};    //定义红，绿，蓝led引脚
+int red, green, blue;
+void setup() {
+  for (int i = 0; i < 3; i++) {   //设置pwm通道，1KHz,8bit
+    pinMode(ledPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  red = random(0, 255);
+  green = random(0, 255);
+  blue = random(0, 255);
+  setColor(red, green, blue);
+  delay(1000);
+}
+
+void setColor(byte r, byte g, byte b) {
+  analogWrite(ledPins[0], 255-r); //共阴极LED，高电平点亮LED.
+  analogWrite(ledPins[1], 255-g);
+  analogWrite(ledPins[2], 255-b);
+}
+```
+
 项目现象：
 
 项目代码上传成功后，利用USB线上电，可以看到的现象是：RGB     LED开始显示随机颜色。
@@ -535,9 +589,39 @@ RGB led由三种颜色(红、绿、蓝)组成，通过混合这三种基本颜�
 
 ![](media/e3d6a1880f61fdfaec74360190f5ed43.png)
 
-本项目是设计制作一个流水灯。这是这些行动：首先打开LED
-\#1，然后关闭它。然后打开LED
-\#2，然后关闭…并对所有10个LED重复同样的操作，直到最后一个LED关闭。这一过程反复进行，以实现流水的“运动”。
+项目代码：
+
+```C
+/* 
+ * 文件名  : 流水灯
+ * 描述 : 用10个led来展示流动的灯.
+ * 作者 : www.keyes-robot.com
+*/
+byte ledPins[] = {16, 17, 18, 19, 20, 21, 22, 26, 27, 28};
+int ledCounts;
+
+void setup() {
+  ledCounts = sizeof(ledPins);
+  for (int i = 0; i < ledCounts; i++) {
+    pinMode(ledPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  for (int i = 0; i < ledCounts; i++) {
+    digitalWrite(ledPins[i], HIGH);
+    delay(100);
+    digitalWrite(ledPins[i], LOW);
+  }
+  for (int i = ledCounts - 1; i > -1; i--) {
+    digitalWrite(ledPins[i], HIGH);
+    delay(100);
+    digitalWrite(ledPins[i], LOW);
+  }
+}
+```
+
+本项目是设计制作一个流水灯。这是这些行动：首先打开LED，然后关闭它。然后打开LED，然后关闭…并对所有10个LED重复同样的操作，直到最后一个LED关闭。这一过程反复进行，以实现流水的“运动”。
 
 项目现象：
 
@@ -587,6 +671,166 @@ RGB led由三种颜色(红、绿、蓝)组成，通过混合这三种基本颜�
 
 数字显示分7段，小数点显示分1段。当显示某些数字时，相应的段将被点亮。例如，当显示数字1时，b和c段将被打开。
 
+
+```C
+/* 
+ * 文件名 : 一位数码管
+ * 描述 : 一位数字管显示数字从9到0.
+ * 作者 : www.keyes-robot.com
+*/
+// 设置每个段的IO引脚
+int a=17; // a段的数字引脚GP17
+int b=16; // b段的数字引脚GP16
+int c=14; // c段的数字引脚GP14
+int d=13; // d段的数字引脚GP13
+int e=12; // e段的数字引脚GP12
+int f=18; // f段的数字引脚GP18
+int g=19; // g段的数字引脚GP19
+int dp=15; // dp段的数字引脚GP15
+void digital_0(void) // 显示数字0
+{
+  digitalWrite(a,HIGH);
+  digitalWrite(b,HIGH);
+  digitalWrite(c,HIGH);
+  digitalWrite(d,HIGH);
+  digitalWrite(e,HIGH);
+  digitalWrite(f,HIGH);
+  digitalWrite(g,LOW);
+  digitalWrite(dp,LOW);
+}
+void digital_1(void) // 显示数字1
+{
+  digitalWrite(a,LOW);
+  digitalWrite(b,HIGH);
+  digitalWrite(c,HIGH);
+  digitalWrite(d,LOW);
+  digitalWrite(e,LOW);
+  digitalWrite(f,LOW);
+  digitalWrite(g,LOW);
+  digitalWrite(dp,LOW);
+}
+void digital_2(void) // 显示数字2
+{
+  digitalWrite(a,HIGH);
+  digitalWrite(b,HIGH);
+  digitalWrite(c,LOW);
+  digitalWrite(d,HIGH);
+  digitalWrite(e,HIGH);
+  digitalWrite(f,LOW);
+  digitalWrite(g,HIGH);
+  digitalWrite(dp,LOW);
+}
+void digital_3(void) // 显示数字3
+{
+  digitalWrite(a,HIGH);
+  digitalWrite(b,HIGH);
+  digitalWrite(c,HIGH);
+  digitalWrite(d,HIGH);
+  digitalWrite(f,LOW);
+  digitalWrite(e,LOW);
+  digitalWrite(dp,LOW);
+  digitalWrite(g,HIGH);
+}
+void digital_4(void) // 显示数字4
+{
+  digitalWrite(a,LOW);
+  digitalWrite(b,HIGH);
+  digitalWrite(c,HIGH);
+  digitalWrite(d,LOW);
+  digitalWrite(e,LOW);
+  digitalWrite(f,HIGH);
+  digitalWrite(g,HIGH);
+  digitalWrite(dp,LOW);
+}
+void digital_5(void) // 显示数字5
+{
+  digitalWrite(a,HIGH);
+  digitalWrite(b,LOW);
+  digitalWrite(c,HIGH);
+  digitalWrite(d,HIGH);
+  digitalWrite(e,LOW);
+  digitalWrite(f,HIGH);
+  digitalWrite(g,HIGH);
+  digitalWrite(dp,LOW);
+}
+void digital_6(void) // 显示数字 6
+{
+  digitalWrite(a,HIGH);
+  digitalWrite(b,LOW);
+  digitalWrite(c,HIGH);
+  digitalWrite(d,HIGH);
+  digitalWrite(e,HIGH);
+  digitalWrite(f,HIGH);
+  digitalWrite(g,HIGH);
+  digitalWrite(dp,LOW);
+}
+void digital_7(void) // 显示数字 7
+{
+  digitalWrite(a,HIGH);
+  digitalWrite(b,HIGH);
+  digitalWrite(c,HIGH);
+  digitalWrite(d,LOW);
+  digitalWrite(e,LOW);
+  digitalWrite(f,LOW);
+  digitalWrite(g,LOW);
+  digitalWrite(dp,LOW);
+}
+void digital_8(void) // 显示数字 8
+{
+  digitalWrite(a,HIGH);
+  digitalWrite(b,HIGH);
+  digitalWrite(c,HIGH);
+  digitalWrite(d,HIGH);
+  digitalWrite(e,HIGH);
+  digitalWrite(f,HIGH);
+  digitalWrite(g,HIGH);
+  digitalWrite(dp,LOW);
+}
+void digital_9(void) // 显示数字 9
+{
+  digitalWrite(a,HIGH);
+  digitalWrite(b,HIGH);
+  digitalWrite(c,HIGH);
+  digitalWrite(d,HIGH);
+  digitalWrite(e,LOW);
+  digitalWrite(f,HIGH);
+  digitalWrite(g,HIGH);
+  digitalWrite(dp,LOW);
+}
+void setup()
+{
+  int i;// 声明一个变量
+  for(i=12;i<=19;i++)
+  pinMode(i,OUTPUT);// 设置PIN 12-19为输出
+}
+void loop()
+{
+  while(1)
+  {
+    digital_9();// 显示数字 9
+    delay(1000); // 延时1秒
+    digital_8();// 显示数字 8
+    delay(1000); // 延时1秒
+    digital_7();// 显示数字 7
+    delay(1000); // 延时1秒
+    digital_6();// 显示数字 6
+    delay(1000); // 延时1秒
+    digital_5();// 显示数字 5
+    delay(1000); // 延时1秒
+    digital_4();// 显示数字 4
+    delay(1000); 
+    digital_3();// 显示数字 3
+    delay(1000); 
+    digital_2();// 显示数字 2
+    delay(1000); 
+    digital_1();// 显示数字 1
+    delay(1000); 
+    digital_0();// 显示数字 0
+    delay(1000);
+  }
+}
+```
+
 项目现象：
 
 项目代码上传成功后，利用USB线上电，可以看到的现象是：一位数码管将显示从9到0的数字。
@@ -629,11 +873,9 @@ TM1650四位数码管：是一个12脚的带时钟点的四位共阳数码管（
 
 添加TM1650库：
 
-    本项目代码使用了一个名为“TM1650”库。如果你还没有添加它，请在学习之前先添加。添加第三方库的步骤如下:
+本项目代码使用了一个名为“TM1650”库。如果你还没有添加它，请在学习之前先添加。添加第三方库的步骤如下:
 
-打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP
-库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.
-库文件\TM1650.ZIP的文件。先单击“TM1650.ZIP”文件，再单击“打开”。
+打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.库文件\TM1650.ZIP的文件。先单击“TM1650.ZIP”文件，再单击“打开”。
 
 ![](media/64b5fe6148c6636c47e2b0c51966d759.png)
 
@@ -642,6 +884,41 @@ TM1650四位数码管：是一个12脚的带时钟点的四位共阳数码管（
 项目代码：
 
 TM1650库添加完之后，你可以打开我们提供的代码：
+
+```C
+/* 
+ * 文件名  : 四位数码管
+ * 描述 : 四位数管显示数字从1111到9999.
+ * 作者 : www.keyes-robot.com
+*/
+#include "TM1650.h"
+#define CLK 21    //用于TM1650的引脚定义，可以更改为其他端口 
+#define DIO 20
+TM1650 DigitalTube(CLK,DIO);
+
+void setup(){
+  //DigitalTube.setBrightness();  //亮度从0到7(默认为2)
+  //DigitalTube.displayOnOFF();   // 0= off,1= on(默认是 1)
+  for(char b=1;b<5;b++){
+    DigitalTube.clearBit(b);      //要清除哪一部分
+  }
+  DigitalTube.displayDot(1,true); // 显示第一个数字
+  DigitalTube.displayDot(2,true);
+  DigitalTube.displayDot(3,true);
+  DigitalTube.displayDot(4,true);
+  DigitalTube.displayBit(3,0);    //显示哪个数字, 位= 1 - 4,数量= 0 - 9
+}
+
+void loop(){
+  for(int num=0; num<10; num++){
+    DigitalTube.displayBit(1,num);
+    DigitalTube.displayBit(2,num);
+    DigitalTube.displayBit(3,num);
+    DigitalTube.displayBit(4,num);
+    delay(1000);
+  }  
+ }
+```
 
 项目现象：
 
@@ -679,30 +956,28 @@ TM1650库添加完之后，你可以打开我们提供的代码：
 
 有些模块上自带3个拨码开关，可以让你随意拨动开关，这是用来设置I2C通信地址的，设置方法如下表格。我们的这个模块中，模块已经固定了通信地址，A0，A1，A2全部接地，即地址为0x70。
 
-| A0（1） | A1（2） | A2（3） | A0（1） | A1（2） | A2（3） | A0（1） | A1（2） | A2（3） |
-| --- | --- | --|-|-|-|-|-|-|
-| 0（OFF） | 0（OFF） | 0（OFF） | 1（ON） | 0（OFF） | 0（OFF） | 0（OFF） | 1（ON） | 0（OFF） |
-| 0X70 | 0X71 | 0X72 |  |
-| A0（1） | A1（2） | A2（3） | A0（1） | A1（2） | A2（3） | A0（1） | A1（2） | A2（3） |
-| 1（ON） | 1（ON） | 0（OFF） | 0（OFF） | 0（OFF） | 1（ON） | 1（ON） | 0（OFF） | 1（ON） |
-| 0X73 | 0X74 | 0X75 |  |
-| A0（1） | A1（2） | A2（3） | A0（1） | A1（2） | A2（3） |  |
-| 0（OFF） | 1（ON） | 1（ON） | 1（ON） | 1（ON） | 1（ON） |
-| 0X76 | 0X77 |
+|A0（1）|A1（2）|A2（3）|A0（1）|A1（2）|A2（3）|A0（1）|A1（2）|A2（3）|
+|-|-|-|-|-|-|-|-|-|
+|0（OFF）|0（OFF）|0（OFF）|1（ON）|0（OFF）|0（OFF）|0（OFF）|1（ON）|0（OFF）|
+|0X70|0X71|0X72| | | | | | |
+|A0（1）|A1（2）|A2（3）|A0（1）|A1（2）|A2（3）|A0（1）|A1（2）|A2（3）|
+|1（ON）|1（ON）|0（OFF）|0（OFF）|0（OFF）|1（ON）|1（ON）|0（OFF）|1（ON）|
+|0X73|0X74|0X75|  | | | | | |
+|A0（1）|A1（2）|A2（3）|A0（1）|A1（2）|A2（3）| | | |
+|0（OFF）|1（ON）|1（ON）|1（ON）|1（ON）|1（ON）| | | |
+|0X76|0X77| | | | | | | |
 
 项目电路图和接线图：
 
-    ![](media/20cf7e805b14e17ce67af366dbf61b9e.png)
+![](media/20cf7e805b14e17ce67af366dbf61b9e.png)
     
-    ![](media/b7257311451a3131f4c2e705237ecf9b.png)
+![](media/b7257311451a3131f4c2e705237ecf9b.png)
 
 添加Matrix库：
 
 本项目代码使用了一个名为“Matrix”库。如果你还没有添加它，请在学习之前先添加，添加第三方库的步骤如下：
 
-打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP
-库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.
-库文件\Matrix.ZIP的文件，先单击“Matrix.ZIP”文件，再单击“打开”。
+打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.库文件\Matrix.ZIP的文件，先单击“Matrix.ZIP”文件，再单击“打开”。
 
 ![](media/4946cc65c46c6437fbfb6a4dbcefe9d7.png)
 
@@ -712,9 +987,39 @@ TM1650库添加完之后，你可以打开我们提供的代码：
 
 Matrix库添加完之后，你可以打开我们提供的代码：
 
+```C
+/*
+ * 文件名 : 8×8点阵显示
+ * 描述 : 8x8点阵显示“心形”图案.
+ * 作者 : www.keyes-robot.com
+*/
+#include <Matrix.h>
+Matrix myMatrix(20,21);
+uint8_t LedArray1[8]={0x00,0x18,0x24,0x42,0x81,0x99,0x66,0x00};
+uint8_t  LEDArray[8];
+void setup(){
+myMatrix.begin(0x70);
+}
+
+void loop(){
+  myMatrix.clear();
+  for(int i=0; i<8; i++)
+  {
+    LEDArray[i]=LedArray1[i];
+    for(int j=7; j>=0; j--)
+    {
+      if((LEDArray[i]&0x01)>0)
+      myMatrix.drawPixel(j, i,1);
+      LEDArray[i] = LEDArray[i]>>1;
+    }
+  }
+  myMatrix.writeDisplay();
+}
+```
+
 项目现象：
 
-    项目代码上传成功后，利用USB线上电，你会看到的现象是：8\*8点阵屏显示“❤”图案。
+项目代码上传成功后，利用USB线上电，你会看到的现象是：8\*8点阵屏显示“❤”图案。
 
 ### 项目 11：74HC595N 控制 8 个灯 
 
@@ -762,9 +1067,56 @@ Matrix库添加完之后，你可以打开我们提供的代码：
 注意：需要注意74HC595N芯片插入的方向
 
 ![](media/ec1ecffbdf054501b67abeeb96917e73.png)
+
 ![](media/5a0de137092d094f6007098ac141586a.png)
 
 ![](media/c96c92db4125b2cc518a0ed5f72e33f9.png)
+
+项目代码：
+
+```C
+/* 
+ * 文件名 : 74HC595N 控制 8 个灯
+ * 描述 : 使用74HC575N驱动8个led显示流动光.
+ * 作者 : www.keyes-robot.com
+*/
+int dataPin = 18;   // 引脚接74HC595的DS(GP14)  
+int latchPin = 20;  // 引脚连接到ST_CP的74HC595(GP12)
+int clockPin = 21;  // 引脚连接到74HC595的SH_CP(GP11)          
+
+void setup() { // 将引脚设置为输出
+  pinMode(latchPin, OUTPUT);
+  pinMode(clockPin, OUTPUT);
+  pinMode(dataPin, OUTPUT);
+}
+
+void loop() {
+  // 定义一个单字节变量，用这8位表示LED条形图中8个LED的状态.
+  // 这个变量被赋值给0x01，也就是二进制的00000001，这表示只有一个LED灯亮着.
+  byte x = 0x01;    // 0b 0000 0001
+  for (int j = 0; j < 8; j++) { // 让led从右到左点亮
+    writeTo595(LSBFIRST, x);
+    x <<= 1; // 使变量向左移动一位，然后明亮的LED向左移动一步.
+    delay(100);
+  }
+  delay(100);
+  x = 0x80;       //0b 1000 0000
+  for (int j = 0; j < 8; j++) { // 让led从左到右点亮
+    writeTo595(LSBFIRST, x);
+    x >>= 1;    
+    delay(100);
+  }
+  delay(100);
+}
+void writeTo595(BitOrder order, byte _data ) {
+  // 输出低电平到latchPin
+  digitalWrite(latchPin, LOW);
+  // 发送串行数据到74HC595
+  shiftOut(dataPin, clockPin, order, _data);
+  // 输出高电平到latchPin, 74HC595将数据更新到并行输出端口.
+  digitalWrite(latchPin, HIGH);
+}
+```
 
 项目现象：
 
@@ -797,6 +1149,7 @@ Matrix库添加完之后，你可以打开我们提供的代码：
 ![](media/9197d4aff9356c585b7ef68e33a6881d.png)
 
 晶体管:
+
 由于蜂鸣器需要很大的电流，ESP32输出能力的GPIO不能满足要求，这里需要一个NPN型晶体管来放大电流。晶体管，全称:半导体晶体管，是一种控制电流的半导体器件。晶体管可以用来放大微弱信号，也可以用作开关。它有三个电极(pin)：基极(b)，集电极(c)和发射极(e)。当电流通过“be”之间时，“ce”将允许几倍的电流通过(晶体管放大)，此时，晶体管在放大区工作。当“be”之间的电流超过某个值时，“ce”将不再允许电流增加，此时晶体管工作在饱和区。晶体管有两种类型如下所示：PNP和NPN
 
 ![](media/02dad9f2fcac0d7bfe4cc135d2301aa6.png)
@@ -811,7 +1164,7 @@ PNP晶体管 NPN晶体管
 
 项目电路图和接线图：
 
-    ![](media/8b84654a0f04d7e4c5f9c2f2923e577b.png)
+![](media/8b84654a0f04d7e4c5f9c2f2923e577b.png)
 
 ![](media/6e607b53416c90c3573d3f890f8a5ed0.png)
 
@@ -820,6 +1173,29 @@ PNP晶体管 NPN晶体管
 2.VUSB应连接到USB线的正极，如果它连接到GND，它可能烧坏电脑或树莓派Pico板。同样，树莓派Pico板的36-40引脚接线时也要小心，避免短路。
 
 3.有源蜂鸣器正极(“+”/长引脚)接引脚16，负极（短引脚）接GND。
+
+项目代码：
+
+```C
+/* 
+ * 文件名 : 有源蜂鸣器
+ * 描述 : 有源蜂鸣器发出滴滴声.
+ * 作者 : www.keyes-robot.com
+*/
+#define buzzerPin  16   //蜂鸣器引脚定义
+
+void setup ()
+{
+  pinMode (buzzerPin, OUTPUT);
+}
+void loop ()
+{
+  digitalWrite (buzzerPin, HIGH);
+  delay (500);
+  digitalWrite (buzzerPin, LOW);
+  delay (500);
+}
+```
 
 项目现象：
 
@@ -853,9 +1229,52 @@ PNP晶体管 NPN晶体管
 
 项目电路图和接线图:
 
-    ![](media/88e1667cdd09ffa9394f7aae9ce60242.png)
+![](media/88e1667cdd09ffa9394f7aae9ce60242.png)
 
 ![](media/0257f2526dcedd215a11ccbce45ded51.png)
+
+项目代码：
+
+```C
+/*
+ * 文件名 : 无源蜂鸣器
+ * 描述 : 无源蜂鸣器发出警报.
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_BUZZER 16   //蜂鸣器引脚定义
+
+void setup() {
+  pinMode(PIN_BUZZER, OUTPUT);
+}
+
+void loop() {
+    alert();
+}
+
+void alert() {
+  float sinVal;         // 定义一个变量来保存sinVal
+  int toneVal;          // 定义一个变量来保存声音频率
+  for (int x = 0; x < 360; x += 10) {     // X从0-360
+    sinVal = sin(x * (PI / 180));       // 计算sinx
+    toneVal = 2000 + sinVal * 500;      // 根据sinx计算声音的频率
+    freq(PIN_BUZZER, toneVal, 10);
+  }
+}
+
+void freq(int PIN, int freqs, int times) {
+  if (freqs == 0) {
+    digitalWrite(PIN, LOW);
+  }
+  else {
+    for (int i = 0; i < times * freqs / 1000; i ++) {
+      digitalWrite(PIN, HIGH);
+      delayMicroseconds(1000000 / freqs / 2);
+      digitalWrite(PIN, LOW);
+      delayMicroseconds(1000000 / freqs / 2);
+    }
+  }
+}
+```
 
 项目现象：
 
@@ -866,6 +1285,7 @@ PNP晶体管 NPN晶体管
 项目介绍：
 
 你知道树莓派Pico板可以在你按下按键的时候点亮LED吗?
+
 在这个项目中，我们将使用树莓派Pico板，一个按键开关和一个LED来制作一个迷你台灯。
 
 项目代码：
@@ -888,9 +1308,10 @@ PNP晶体管 NPN晶体管
 
 在设计电路时，按键开关是最常用的一种元件。
 
-按键的原理图:     
-![](media/5e42fde9876f9be810d85a7fb8b331f7.png)
-![](media/8677548f9e756281629430d66ba3a460.png)  
+按键的原理图: 
+
+![](media/5e42fde9876f9be810d85a7fb8b331f7.png)![](media/8677548f9e756281629430d66ba3a460.png)  
+
 什么是按键抖动？
 
 我们想象的开关电路是“按下按键-立刻导通”“再次按下-立刻断开”，而实际上并非如此。
@@ -904,8 +1325,7 @@ PNP晶体管 NPN晶体管
 
 常用除抖动方法有两种：软件方法和硬件方法。这里重点讲讲方便简单的软件方法。
 
-我们已经知道弹性惯性产生的抖动时间为10ms
-左右，用延时命令推迟命令执行的时间就可以达到除抖动的效果。
+我们已经知道弹性惯性产生的抖动时间为10ms左右，用延时命令推迟命令执行的时间就可以达到除抖动的效果。
 
 所以我们在代码中加入了0.02秒的延时以实现按键防抖的功能。
 
@@ -929,6 +1349,41 @@ PNP晶体管 NPN晶体管
 
 ![](media/18484e5d16b6d89c63825cc2efa6a543.png)
 
+项目代码：
+
+```C
+/* 
+ * 文件名  : 小台灯
+ * 描述 : 模拟小台灯.
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_LED    19
+#define PIN_BUTTON 22
+bool ledState = false;
+
+void setup() {
+  // 初始化数字引脚PIN_LED作为输出.
+  pinMode(PIN_LED, OUTPUT);
+  pinMode(PIN_BUTTON, INPUT);
+}
+
+// 循环函数会一直循环下去
+void loop() {
+  if (digitalRead(PIN_BUTTON) == LOW) {
+    delay(20);
+    if (digitalRead(PIN_BUTTON) == LOW) {
+      reverseGPIO(PIN_LED);
+    }
+    while (digitalRead(PIN_BUTTON) == LOW);
+  }
+}
+
+void reverseGPIO(int pin) {
+  ledState = !ledState;
+  digitalWrite(pin, ledState);
+}
+```
+
 项目现象：
 
 项目代码上传成功后，利用USB线上电，可以看到的现象是：按下按钮，LED亮起；当按钮松开时，LED仍亮着。再次按下按钮，LED熄灭；当按钮释放时，LED保持关闭。是不是很像个小台灯？
@@ -937,7 +1392,7 @@ PNP晶体管 NPN晶体管
 
 项目介绍：
 
-    古代人没有电子时钟，就发明了沙漏来测时间，沙漏两边的容量比较大，在一边装了细沙，中间有个很小的通道，将沙漏直立，有细沙的一边在上方，由于重力的作用，细沙就会往下流通过通道到沙漏的另一边，当细沙都流到下边了，就倒过来，把一天反复的次数记录下来，第二天就可以通过沙漏反复流动的次数而知道这一天大概的时间了。这一课我们将利用树莓派Pico板控制倾斜开关和LED灯来模拟沙漏，制作一个电子沙漏。
+古代人没有电子时钟，就发明了沙漏来测时间，沙漏两边的容量比较大，在一边装了细沙，中间有个很小的通道，将沙漏直立，有细沙的一边在上方，由于重力的作用，细沙就会往下流通过通道到沙漏的另一边，当细沙都流到下边了，就倒过来，把一天反复的次数记录下来，第二天就可以通过沙漏反复流动的次数而知道这一天大概的时间了。这一课我们将利用树莓派Pico板控制倾斜开关和LED灯来模拟沙漏，制作一个电子沙漏。
 
 项目元件：
 
@@ -976,6 +1431,52 @@ PNP晶体管 NPN晶体管
 ![](media/793740d0b936e516ca354111e2d0eb79.png)
 
 ![](media/18484e5d16b6d89c63825cc2efa6a543.png)
+
+项目代码：
+
+```C
+/* 
+ * 文件名  : 模拟沙漏
+ * 描述 : 倾斜开关和四个led模拟沙漏.
+ * 作者 : www.keyes-robot.com
+*/
+#define SWITCH_PIN  22  // 倾斜开关连接到GP22
+byte switch_state = 0;
+void setup()
+{
+     for(int i=16;i<20;i++)
+  {
+        pinMode(i, OUTPUT);
+  } 
+    pinMode(SWITCH_PIN, INPUT);
+ for(int i=16;i<20;i++)
+  {
+    digitalWrite(i,0);
+  } 
+  Serial.begin(9600);
+}
+void loop()
+{
+switch_state = digitalRead(SWITCH_PIN); 
+Serial.println(switch_state);
+ if (switch_state == 0) 
+ {
+ for(int i=16;i<20;i++)
+  {
+    digitalWrite(i,1);
+    delay(500);
+  } 
+  }
+   if (switch_state == 1) 
+ {
+   for(int i=19;i>15;i--)
+   {
+    digitalWrite(i,0);
+    delay(500);
+   }
+  }
+}
+```
 
 项目结果：
 
@@ -1037,6 +1538,42 @@ PNP晶体管 NPN晶体管
 
 ![](media/a9539236b5a3cfbce85a0b67691083e2.png)
 
+项目代码：
+
+```C
+/* 
+ * 文件名 : 防窃警报器
+ * 文件名 : 人体红外传感器,蜂鸣器和LED模拟防盗报警.
+ * 作者 : www.keyes-robot.com
+*/
+#define buzzerPin   19   // 蜂鸣器的引脚
+#define ledPin   22     // LED的引脚
+#define pirPin   2     // 人体红外传感器的引脚
+byte pirStat = 0;   // 人体红外传感器的状态
+void setup() {
+ pinMode(buzzerPin, OUTPUT); 
+ pinMode(ledPin, OUTPUT);    
+ pinMode(pirPin, INPUT);     
+}
+void loop()
+{
+ pirStat = digitalRead(pirPin); 
+ if (pirStat == HIGH)
+ {            // 如果发现有人或动物移动
+   digitalWrite(buzzerPin, HIGH);  // 蜂鸣器蜂鸣
+   digitalWrite(ledPin, HIGH);  // led灯点亮
+   delay(500);
+   digitalWrite(buzzerPin, LOW);  // 蜂鸣器不响
+   digitalWrite(ledPin, LOW);  // led熄灭
+   delay(500);
+ } 
+ else {
+   digitalWrite(buzzerPin, LOW); // 如果没有发现人或动物在移动，关闭蜂鸣器
+   digitalWrite(ledPin, LOW);  // led熄灭
+ }
+}
+```
+
 项目现象：
 
 项目代码上传成功后，利用USB线上电，可以看到的现象是：如果人体红外传感器检测到附近有人移动时，蜂鸣器就会不断地发出警报，且LED不断地闪烁。
@@ -1045,7 +1582,7 @@ PNP晶体管 NPN晶体管
 
 项目介绍：
 
-    在生活中，我们可以利用显示器等模块来做各种实验。你也可以DIY各种各样的小物件。例如，用一个温度传感器和显示器做一个温度测试仪，或者用一个超声波模块和显示器做一个距离测试仪。下面，我们将使用LCD_128X32_DOT模块作为显示器，将其连接到树莓派Pico控制板上。将使用树莓派Pico主板控制LCD_128X32_DOT显示屏显示各种英文文字、常用符号和数字。
+在生活中，我们可以利用显示器等模块来做各种实验。你也可以DIY各种各样的小物件。例如，用一个温度传感器和显示器做一个温度测试仪，或者用一个超声波模块和显示器做一个距离测试仪。下面，我们将使用LCD_128X32_DOT模块作为显示器，将其连接到树莓派Pico控制板上。将使用树莓派Pico主板控制LCD_128X32_DOT显示屏显示各种英文文字、常用符号和数字。
 
 项目元件： 
 
@@ -1077,7 +1614,7 @@ LCD_128X32_DOT技术参数：
 
 项目接线图：
 
-    特别注意：这里必须使用4P     转杜邦线母单10厘米连接LCD_128X32_DOT，LCD_128X32_DOT才会显示正常；否则，使用4P     转杜邦线母单20厘米，LCD_128X32_DOT可能会显示不正常。
+特别注意：这里必须使用4P     转杜邦线母单10厘米连接LCD_128X32_DOT，LCD_128X32_DOT才会显示正常；否则，使用4P     转杜邦线母单20厘米，LCD_128X32_DOT可能会显示不正常。
 
 ![](media/37c015266b4998c76a04be21f0d0a969.png)
 
@@ -1085,9 +1622,7 @@ LCD_128X32_DOT技术参数：
 
 本项目代码使用了一个名为“lcd128_32_io”库。如果你还没有添加，请在学习之前添加它。添加第三方库的步骤如下:
 
-打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP
-库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.
-库文件\LCD_128X32.ZIP的文件，先选中LCD_128X32.ZIP文件，再单击“打开”。
+打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.库文件\LCD_128X32.ZIP的文件，先选中LCD_128X32.ZIP文件，再单击“打开”。
 
 ![](media/82becdfbc8f63d7e75198b48fc42c382.png)
 
@@ -1096,6 +1631,35 @@ LCD_128X32_DOT技术参数：
 项目代码：
 
 lcd128_32_io库添加完成后，你可以打开我们提供的代码：
+
+
+```C
+/*
+ * 文件名 : LCD 128*32
+ * 描述 : LCD 128*32 显示字符串
+ * 作者  : www.keyes-robot.com
+*/
+#include "lcd128_32_io.h"
+
+//创建 lCD128 *32 引脚，sda--->20， scl--->21
+lcd lcd(20, 21);
+
+void setup() {
+  lcd.Init(); //初始化
+  lcd.Clear();  //清除
+}
+
+void loop() {
+  lcd.Cursor(0, 4); //设置显示位置
+  lcd.Display("KEYESTUDIO"); //设置显示参数
+  lcd.Cursor(1, 0);
+  lcd.Display("ABCDEFGHIJKLMNOPQR");
+  lcd.Cursor(2, 0);
+  lcd.Display("123456789+-*/<>=$@");
+  lcd.Cursor(3, 0);
+  lcd.Display("%^&(){}:;'|?,.~\\[]");
+}
+```
 
 项目现象：
 
@@ -1141,6 +1705,41 @@ lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 
 ![](media/b5054883392228c86af0586520300b07.png)
 
+项目代码：
+
+```C
+/*
+ * 文件名 : 小风扇
+ * 描述 : 风机顺时针旋转，停止，逆时针旋转，停止，循环.
+ * 作者  : www.keyes-robot.com
+*/
+#define Motorla    17  // 定义电机的Motor_IN+引脚
+#define Motorlb     16  // 定义电机的Motor_IN-引脚
+
+void setup(){
+  pinMode(Motorla, OUTPUT);//设置Motorla为OUTPUT
+  pinMode(Motorlb, OUTPUT);//将Motorlb设置为OUTPUT
+}
+void loop(){
+//设置逆时针旋转5秒
+  digitalWrite(Motorla,HIGH);
+  digitalWrite(Motorlb,LOW);
+  delay(5000);
+//设置停止旋转2秒 
+  digitalWrite(Motorla,LOW);
+  digitalWrite(Motorlb,LOW);
+  delay(2000);
+//设置顺时针旋转5秒
+  digitalWrite(Motorla,LOW);
+  digitalWrite(Motorlb,HIGH);
+  delay(5000);
+//设置停止旋转2秒 
+  digitalWrite(Motorla,LOW);
+  digitalWrite(Motorlb,LOW);
+  delay(2000);
+}
+```
+
 项目现象：
 
 项目代码上传成功后，利用USB线上电，可以看到的现象是：小风扇先逆时针转5秒，停止2秒，再顺时针转5秒，停止2秒，以此规律重复执行。
@@ -1165,13 +1764,10 @@ lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 
 ![](media/99830768916233a9c5900ac399006c17.png)
 
-舵机是一种位置伺服的驱动器，主要是由外壳、电路板、无核心马达、齿轮与位置检测器所构成。其工作原理是由接收机或者单片机发出信号给舵机，其内部有一个基准电路，产生周期为20ms，宽度为1.5ms
-的基准信号，将获得的直流偏置电压与电位器的电压比较，获得电压差输出。经由电路板上的IC
-判断转动方向，再驱动无核心马达开始转动，透过减速齿轮将动力传至摆臂，同时由位置检测器送回信号，判断是否已经到达定位。适用于那些需要角度不断变化并可以保持的控制系统。当电机转速一定时，通过级联减速齿轮带动电位器旋转，使得电压差为0，电机停止转动。一般舵机旋转的角度范围是0度到180
+舵机是一种位置伺服的驱动器，主要是由外壳、电路板、无核心马达、齿轮与位置检测器所构成。其工作原理是由接收机或者单片机发出信号给舵机，其内部有一个基准电路，产生周期为20ms，宽度为1.5ms的基准信号，将获得的直流偏置电压与电位器的电压比较，获得电压差输出。经由电路板上的IC判断转动方向，再驱动无核心马达开始转动，透过减速齿轮将动力传至摆臂，同时由位置检测器送回信号，判断是否已经到达定位。适用于那些需要角度不断变化并可以保持的控制系统。当电机转速一定时，通过级联减速齿轮带动电位器旋转，使得电压差为0，电机停止转动。一般舵机旋转的角度范围是0度到180
 度。
 
-控制舵机的脉冲周期为20ms，脉冲宽度为0.5ms ~ 2.5ms，对应位置为-90°~
-+90°。下面是以一个180°角的舵机为例：
+控制舵机的脉冲周期为20ms，脉冲宽度为0.5ms ~ 2.5ms，对应位置为-90°~+90°。下面是以一个180°角的舵机为例：
 
 ![](media/708316fde05c62113a3024e0efb0c237.jpeg)
 
@@ -1187,11 +1783,11 @@ lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 
 添加Servo库：
 
-    本项目代码使用了一个名为“Servo”库，如果你还没有添加它，请在学习之前添加。添加第三方库的步骤如下:
+本项目代码使用了一个名为“Servo”库，如果你还没有添加它，请在学习之前添加。添加第三方库的步骤如下:
     
-    方法一：
+方法一：
     
-    打开arduino     IDE，点击“项目”→“加载库”→“管理库...”。在搜索栏输入“Servo”，选择“Servo”并点击“安装”进行添加。请参考以下操作：
+打开arduino     IDE，点击“项目”→“加载库”→“管理库...”。在搜索栏输入“Servo”，选择“Servo”并点击“安装”进行添加。请参考以下操作：
 
 ![](media/704a73e66330bf11890efd31cf64142f.png)
 
@@ -1199,9 +1795,7 @@ lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 
 方法二：
 
-打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP
-库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.
-库文件\Servo.ZIP的文件。先单击“Servo.ZIP”文件，再单击“打开”。
+打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.库文件\Servo.ZIP的文件。先单击“Servo.ZIP”文件，再单击“打开”。
 
 ![](media/49826d55f716443a0515bed016c6c758.png)
 
@@ -1210,6 +1804,36 @@ lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 项目代码：
 
 Servo库添加完成后，你可以打开我们提供的代码：
+
+
+```C
+/*
+ * 文件名 : 舵机
+ * 描述 : 控制舵机进行清扫
+ * 作者 : www.keyes-robot.com
+*/
+#include <Servo.h>
+#define servoPin 16
+
+Servo myServo;  // 创建舵机对象来控制舵机
+int pos = 0;    // 创建变量存储舵机位置
+
+void setup() {
+  myServo.attach(servoPin);  // 将舵机连接到GP16引脚上
+}
+
+void loop() {
+  for (pos = 0; pos <= 180; pos += 1) { // 从0°到180°
+    // 以1度为阶
+    myServo.write(pos);              // 告诉舵机在变量'pos'的位置
+    delay(15);                       // 等待15毫秒舵机到达对应位置
+  }
+  for (pos = 180; pos >= 0; pos -= 1) { // 从180度到0度
+    myServo.write(pos);              // 告诉舵机在变量'pos'的位置
+    delay(15);                       // 等待15毫秒舵机到达对应位置
+  }
+}
+```
 
 项目现象：
 
@@ -1259,11 +1883,9 @@ CD - D - DA - A ......
 
 步进电机参数：
 
-我们所提供的步进电机需要转动32步，转子才能转一圈，还经过了1:64的减速齿轮组带动输出轴，这样输出轴转动一圈需要：
-32 \* 64 = 2048 步。
+我们所提供的步进电机需要转动32步，转子才能转一圈，还经过了1:64的减速齿轮组带动输出轴，这样输出轴转动一圈需要：32 \* 64 = 2048 步。
 
-电压5V，4相步进电机 ，4节拍模式的步进角为11.25，
-8节拍模式步进角为5.625， 减速比为1:64
+电压5V，4相步进电机 ，4节拍模式的步进角为11.25，8节拍模式步进角为5.625， 减速比为1:64
 
 ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号转换为更强的控制信号，从而驱动步进电机。
 
@@ -1276,6 +1898,67 @@ ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号
 ![](media/81301873ba52d2319b71fc3e61ff7d5d.png)
 
 ![](media/b9751d6689231336b15e7993995da032.png)
+
+项目代码：
+
+```C
+/*
+ * 文件名 : 步进电机
+ * 描述 : 使用ULN2003驱动步进电机.
+ * 作者 : www.keyes-robot.com
+*/
+// 连接步进电机驱动器的端口
+int outPorts[] = {21, 20, 19, 18};
+
+void setup() {
+  // set pins to output
+  for (int i = 0; i < 4; i++) {
+    pinMode(outPorts[i], OUTPUT);
+  }
+}
+
+void loop()
+{
+  // 旋转一圈
+  moveSteps(true, 32 * 64, 3);
+  delay(1000);
+  // 向另一个方向旋转一圈
+  moveSteps(false, 32 * 64, 3);
+  delay(1000);
+}
+
+//建议:在3 ~ 20毫秒范围内电机转动精确
+void moveSteps(bool dir, int steps, byte ms) {
+  for (unsigned long i = 0; i < steps; i++) {
+    moveOneStep(dir); // 旋转一步
+    delay(constrain(ms,3,20));        // 控制速度
+  }
+}
+
+void moveOneStep(bool dir) {
+  // 定义一个变量，用四位低位表示端口的状态
+  static byte out = 0x01;
+  // 根据旋转方向确定移动方向
+  if (dir) {  // 循环左移
+    out != 0x08 ? out = out << 1 : out = 0x01;
+  }
+  else {      // 循环右移
+    out != 0x01 ? out = out >> 1 : out = 0x08;
+  }
+  // 向每个端口输出信号
+  for (int i = 0; i < 4; i++) {
+    digitalWrite(outPorts[i], (out & (0x01 << i)) ? HIGH : LOW);
+  }
+}
+
+void moveAround(bool dir, int turns, byte ms){
+  for(int i=0;i<turns;i++)
+    moveSteps(dir,32*64,ms);
+}
+void moveAngle(bool dir, int angle, byte ms){
+  moveSteps(dir,(angle*32*64/360),ms);
+}
+```
 
 项目结果：
 
@@ -1315,6 +1998,28 @@ ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号
 
 ![](media/33bc9c0cb70b5b4edeb12b8326ab02a9.png)
 
+项目代码：
+
+```C
+/*
+ * 文件名 : 继电器
+ * 描述 : 继电器打开和关闭.
+ * 作者 : www.keyes-robot.com
+*/
+#define  Relay  16 // 定义了数字引脚16
+void setup()
+{
+  pinMode(Relay, OUTPUT); // 数字 "Relay" 作为输出
+}
+void loop()
+{
+  digitalWrite(Relay, HIGH); // 打开继电器
+  delay(1000); //延时1秒
+  digitalWrite(Relay, LOW); // 关闭继电器
+  delay(1000); // 延时1秒
+}
+```
+
 项目结果：
 
 项目代码上传成功后，利用USB线上电，可以看到的现象是：继电器将循环开与关，开启1秒，关闭1秒。同时可以听到继电器开与关的声音，还可以看到继电器上的指示灯指示状态的变化。
@@ -1346,6 +2051,28 @@ ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号
 
 ![](media/fb36b9b05a5082fe9255b42eb90cf330.png)
 
+```C
+/*  
+ * 文件名 : 读取电位器模拟值
+ * 描述 : ADC的基本用法
+ * 作者  : www.keyes-robot.com
+*/
+#define PIN_ANALOG_IN  26  //电位计的引脚
+
+void setup() {
+  Serial.begin(115200);
+}
+
+//在loop()函数中，调用analogRead来获取ADC0的ADC值，并将其赋给adcVal. 
+//通过公式计算测量到的电压值，并通过串口监视器打印这些数据.
+void loop() {
+  int adcVal = analogRead(PIN_ANALOG_IN);
+  double voltage = adcVal / 1023.0 * 3.3;
+  Serial.println("ADC Value: " + String(adcVal) + " --- Voltage Value: " + String(voltage) + "V");
+  delay(500);
+}
+```
+
 上传代码成功之后，利用USB线上电，打开串口监视器，设置波特率为115200。可以看到的现象是：串口监视器窗口将打印出电位器的ADC值和电压值，转动电位器手柄时，ADC值和电压值发生变化。如下图所示：
 
 ![](media/0d9212c335a998d6783758f40f6095bc.png)
@@ -1357,6 +2084,29 @@ ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号
 ![](media/f13f9ab55497276e4323ca97479cb69b.png)
 
 ![](media/b08506476d0321b6040e38ce2992f775.png)
+
+项目代码：
+
+```C
+/*  
+ * 文件名 : 调光灯
+ * 描述 : 利用电位器控制LED的亮度.
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_ADC0    26  //电位器的引脚
+#define PIN_LED     16  // LED的引脚
+
+void setup() {
+  pinMode(PIN_LED, OUTPUT);
+  pinMode(PIN_ADC0, INPUT);
+}
+
+void loop() {
+  int adcVal = analogRead(PIN_ADC0); //读取电位器的ADC值
+  analogWrite(PIN_LED, map(adcVal, 0, 1023, 0, 255));//将ADC映射到PWM占空比来控制LED亮度.
+  delay(10);
+}
+```
 
 项目现象：
 
@@ -1399,6 +2149,28 @@ ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号
 
 ![](media/87ee33681081148ff7b4e8f6ed485833.png)
 
+```C
+/*  
+ * 文件名  : 读取火焰传感器模拟值
+ * 描述 : ADC的基本用法
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_ANALOG_IN  26  //火焰传感器的引脚
+
+void setup() {
+  Serial.begin(115200);
+}
+
+//在loop()函数中，调用analogRead来获取ADC0的ADC值，并将其赋给adcVal. 
+//通过公式计算测量到的电压值，并通过串口监视器打印这些数据.
+void loop() {
+  int adcVal = analogRead(PIN_ANALOG_IN);
+  double voltage = adcVal / 1023.0 * 3.3;
+  Serial.println("ADC Value: " + String(adcVal) + " --- Voltage Value: " + String(voltage) + "V");
+  delay(500);
+}
+```
+
 上传代码成功之后，利用USB线上电，打开串口监视器，设置波特率为115200。可以看到的现象是：串口监视器窗口将打印出火焰传感器读取的模拟值，当火焰靠近火焰传感器时，模拟值增大；反之，模拟值减小。
 
 ![](media/c9783eb837b702694dffa8562e93d178.png)
@@ -1414,6 +2186,40 @@ ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号
 项目代码：
 
 （注意：![](media/4b3a41657bb185bc081cc3768c117634.png)代码中的阀值500可以根据实际情况自己重新设置）
+
+```C
+/*  
+ * 文件名  : 火焰报警器
+ * 描述 : 通过火焰传感器控制蜂鸣器和LED.
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_ADC0      26  //火焰传感器的引脚
+#define PIN_LED       16  // LED的引脚
+#define PIN_BUZZER    17  // 蜂鸣器的引脚
+
+void setup() {
+  pinMode(PIN_LED, OUTPUT);
+  pinMode(PIN_BUZZER, OUTPUT);
+  pinMode(PIN_ADC0, INPUT);
+}
+
+void loop() {
+  int adcVal = analogRead(PIN_ADC0); //读取火焰传感器的ADC值
+  if (adcVal >= 500) {
+    digitalWrite (PIN_BUZZER, HIGH); //蜂鸣器鸣叫
+    digitalWrite(PIN_LED, HIGH); // 点亮LED
+    delay(500); // 延时0.5秒.
+    digitalWrite(PIN_LED, LOW); // 熄灭 LED
+    delay(500); // 延时0.5秒
+  }
+  else
+  {
+    digitalWrite(PIN_LED, LOW);  //熄灭LED
+    digitalWrite (PIN_BUZZER, LOW); //关闭蜂鸣器
+  }
+}
+```
+
 
 项目现象：
 
@@ -1456,6 +2262,29 @@ ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号
 
 ![](media/f959367212742f632f48c79543e74c48.png)
 
+
+```C
+/*  
+ * 文件名 : 读取光敏电阻的模拟值
+ * 描述 : ADC的基本用法
+ * 作者  : www.keyes-robot.com
+*/
+#define PIN_ANALOG_IN  26  //光敏传感器的引脚
+
+void setup() {
+  Serial.begin(115200);
+}
+
+//在loop()函数中，调用analogRead来获取ADC0的ADC值，并将其赋给adcVal. 
+//通过公式计算测量到的电压值，并通过串口监视器打印这些数据.
+void loop() {
+  int adcVal = analogRead(PIN_ANALOG_IN);
+  double voltage = adcVal / 1023.0 * 3.3;
+  Serial.println("ADC Value: " + String(adcVal) + " --- Voltage Value: " + String(voltage) + "V");
+  delay(500);
+}
+```
+
 上传代码成功之后，利用USB线上电，打开串口监视器，设置波特率为115200。可以看到的现象是：串口监视器窗口将打印光敏电阻读取的模拟值，当逐渐减弱光敏电阻所处环境中的光线强度时，模拟值逐渐增大；反之，模拟值逐渐减小。
 
 ![](media/c9783eb837b702694dffa8562e93d178.png)
@@ -1469,6 +2298,27 @@ ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号
 ![](media/d34c5f9f70d90d560be98038169c270d.png)
 
 项目代码：
+
+```C
+/*  
+ * 文件名 : 小夜灯
+ * 描述 : 光敏传感器控制LED的亮度.
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_ADC0    26  // 光敏传感器的引脚
+#define PIN_LED     16  // LED的引脚
+
+void setup() {
+  pinMode(PIN_LED, OUTPUT);
+  pinMode(PIN_ADC0, INPUT);
+}
+
+void loop() {
+  int adcVal = analogRead(PIN_ADC0); //读取光敏传感器的ADC值
+  analogWrite(PIN_LED, map(adcVal, 0, 1023, 0, 255));//将ADC映射到PWM占空比来控制LED亮度.
+  delay(10);
+}
+```
 
 项目结果：
 
@@ -1485,13 +2335,7 @@ ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号
 项目元件：
 
 |  ![](media/f70a6a892505b1816d151452b9b995a7.jpeg)  |  ![](media/2762753d227ba94de9f6e5c9ff79fe53.png)  |  ![](media/82b6a0e286b6ca25c06c6353397bad79.png)  |  ![](media/7eb361d680dfa351f07f8527aeb37abd.png)  |
-|-|-|-|-|
-| 树莓派Pico板*1 | 树莓派Pico板的扩展板*1 | 光敏电阻*1 | 红色LED*1 |
-|  ![](media/e380dd26e4825be9a768973802a55fe6.png)  |  ![](media/51ab4ab6eefe8ba8f66234989d5282de.png)  |  ![](media/3ac518b4caa5086041545c60c7a6a2d1.png)  |  ![](media/e9a8d050105397bb183512fb4ffdd2f6.png)  |
-| 面包板*1 | 220Ω电阻*1 | 公对母杜邦线若干 | 跳线若干 |
-|  ![](media/239131563f68fbf379e97d8384cf2d9b.png)  |  ![](media/ebfacf0e05bcd3941fe3b641935756b0.png)  |  ![](media/8cf9b1b3a5fec374cde3c5f0537567cb.png)  |  ![](media/7dcbd02995be3c142b2f97df7f7c03ce.png)  |
-| 人体红外传感器*1 | 3Pin 杜邦母单*1 | 10KΩ电阻*1 | USB 线*1 |
-|  ![](media/f70a6a892505b1816d151452b9b995a7.jpeg)  |  ![](media/2762753d227ba94de9f6e5c9ff79fe53.png)  |  ![](media/82b6a0e286b6ca25c06c6353397bad79.png)  |  ![](media/7eb361d680dfa351f07f8527aeb37abd.png)  |
+|-|-|-|-|-|
 | 树莓派Pico板*1 | 树莓派Pico板的扩展板*1 | 光敏电阻*1 | 红色LED*1 |
 |  ![](media/e380dd26e4825be9a768973802a55fe6.png)  |  ![](media/51ab4ab6eefe8ba8f66234989d5282de.png)  |  ![](media/7dcbd02995be3c142b2f97df7f7c03ce.png)  |  ![](media/e9a8d050105397bb183512fb4ffdd2f6.png)  |
 | 面包板*1 | 220Ω电阻*1 | USB 线*1 | 跳线若干 |
@@ -1503,6 +2347,43 @@ ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号
 ![](media/13089278eeceeda77e4023db7d60a29e.png)![](media/98a0ef97cf5053ad684f4197ea9f101b.png)
 
 项目代码：
+
+```C
+/*  
+ * 文件名 : 人体感应灯
+ * 描述 : 采用光敏传感器和人体红外传感器控制LED.
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_ADC0  26   //光敏传感器的引脚
+#define PIN_LED1   16  // 外接LED的引脚
+#define PIN_LED2   25  // Pico板上内置LED的引脚
+#define pirPin   2     // 人体红外传感器的引脚
+byte pirStat = 0;   // 人体红外传感器的状态
+void setup() {
+  pinMode(PIN_LED1, OUTPUT);
+  pinMode(PIN_LED2, OUTPUT);
+  pinMode(PIN_ADC0, INPUT);
+  pinMode(pirPin, INPUT);
+}
+
+void loop() {
+  int adcVal = analogRead(PIN_ADC0); //读取光敏传感器的ADC值
+  pirStat = digitalRead(pirPin); //读取人体红外传感器的值
+  if (adcVal >= 500) {
+      digitalWrite(PIN_LED2, HIGH); //点亮Pico板上的内置LED 
+      if (pirStat == HIGH){
+         digitalWrite(PIN_LED1, HIGH);//点亮外接LED
+         } 
+      else{
+         digitalWrite(PIN_LED1, LOW);//熄灭外接LED灯   
+        }
+  }
+   else{
+      digitalWrite(PIN_LED1, LOW);//熄灭外接LED灯
+      digitalWrite(PIN_LED2, LOW);//熄灭Pico板上的内置LED
+      }
+}
+```
 
 项目结果：
 
@@ -1534,6 +2415,29 @@ ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号
 
 ![](media/92b65cea0b7809a9e137f5993299d811.png)
 
+
+```C
+/*  
+ * 文件名  : 读取声音传感器模拟值
+ * 描述 : ADC的基本用法
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_ANALOG_IN  28  //声音传感器的引脚
+
+void setup() {
+  Serial.begin(115200);
+}
+
+//在loop()函数中，调用analogRead来获取ADC0的ADC值，并将其赋给adcVal 
+//通过公式计算测量到的电压值，并通过串口监视器打印这些数据.
+void loop() {
+  int adcVal = analogRead(PIN_ANALOG_IN);
+  double voltage = adcVal / 1023.0 * 3.3;
+  Serial.println("ADC Value: " + String(adcVal) + " --- Voltage Value: " + String(voltage) + "V");
+  delay(500);
+}
+```
+
 上传代码成功之后，利用USB线上电，打开串口监视器，设置波特率为115200。可以看到的现象是：串口监视器窗口将打印声音传感器读取的模拟值，当对着传感器拍拍手，声音传感器的模拟值发生了显著的变化。
 
 ![](media/c4f75573741c2fcf7e1e084940afd315.png)
@@ -1547,6 +2451,43 @@ ULN2003步进电机驱动板：ULN2003型步进电机驱动器，将微弱信号
 ![](media/86bf1beb216e6b62776921158a540618.png)
 
 （注意：![](media/eadca6bc4da3706e43015b3e00afd512.png)代码中的阀值600可以根据实际情况自己重新设置）
+
+项目代码：
+
+```C
+/*  
+ * 文件名 : 声控风扇
+ * 描述 : 通过声音传感器控制风扇.
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_ADC2   28  //声音传感器的引脚
+#define PIN_Motorla    17  // 电机的Motor_IN+引脚
+#define PIN_Motorlb    16  // 电机的Motor_IN-引脚
+#define PIN_LED    25  // // Pico板上内置LED的引脚
+
+void setup() {
+  pinMode(PIN_LED, OUTPUT);//设置PIN_LED为输出
+  pinMode(PIN_Motorla, OUTPUT);//设置Motorla为输出
+  pinMode(PIN_Motorlb, OUTPUT);//将Motorlb设置为输出
+  pinMode(PIN_ADC2, INPUT);//设置PIN_ADC2为输入
+}
+
+void loop() {
+  int adcVal = analogRead(PIN_ADC2); //读取声音传感器的ADC值
+  if (adcVal > 600) {
+    digitalWrite(PIN_LED,HIGH); //点亮Pico板上的内置LED
+    digitalWrite(PIN_Motorla,HIGH); //旋转
+    digitalWrite(PIN_Motorlb,LOW);
+    delay(5000); //delay 5S
+  }
+  else
+  {
+    digitalWrite(PIN_LED,LOW); //关闭Pico板上的内置LED
+    digitalWrite(PIN_Motorla,LOW); //停止转动
+    digitalWrite(PIN_Motorlb,LOW); 
+  }
+}
+```
 
 项目现象：
 
@@ -1585,17 +2526,93 @@ LM35温度传感器工作原理：LM35是一种应用广泛的温度传感器，
 
 这里，LM35输出给树莓派Pico板的模拟引脚是GP26。这个模拟电压被转换成数字形式，并经过处理得到温度读数。
 
+
+```C
+/*  
+ * 文件名 : 读取LM35温度值
+ * 描述 : 将ADC值转换为LM35温度值
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_ANALOG_IN  26  //温度传感器的引脚
+
+void setup() {
+  Serial.begin(115200);
+}
+
+//在loop()函数中，调用analogRead来获取ADC0的ADC值，并将其赋给adcVal. 
+//通过公式计算测量的电压值，摄氏度和华氏温度值，并通过串口监视器打印这些数据.
+void loop() {
+  int adcVal = analogRead(PIN_ANALOG_IN);
+  double voltage = adcVal / 1023.0 * 3.3;
+  float temperatureC = (voltage * 1000.0) / 10.0 ;
+  float temperatureF = (temperatureC * 1.8) + 32.0;
+  Serial.print("ADC Value: " + String(adcVal));
+  Serial.print("---Voltage Value: " + String(voltage) + "V");
+  Serial.print("---temperatureC: " + String(temperatureC) + "℃");
+  Serial.println("---temperatureF: " + String(temperatureF) + "F");
+  delay(500);
+}
+```
+
 代码上传到树莓派Pico板成功之后，利用USB线上电，打开串口监视器，设置波特率为115200。可以看到的现象是：串口监视器窗口将打印当前环境的温度值。
 
 ![](media/5876ba72e4256ba9a7c458e7f592a6db.png)
 
 温度测量的电路图和接线图：
 
-    现在使用LM35温度传感器和3个led做一个温度测量。当LM35温度传感器感应到不同的温度时，不同的led会点亮。按照下图进行接线。
+ 现在使用LM35温度传感器和3个led做一个温度测量。当LM35温度传感器感应到不同的温度时，不同的led会点亮。按照下图进行接线。
     
-    ![](media/0d5cf74e28bc6d730c4571e8189f9372.png)
+![](media/0d5cf74e28bc6d730c4571e8189f9372.png)
 
 ![](media/cbc79ab50cd4956254b7d3789804d6f2.png)
+
+项目代码：
+
+```C
+/*  
+ * 文件名  : 温度测量
+ * 描述 : 当LM35感应到不同的温度时，不同的led会发光
+ * 作者  : www.keyes-robot.com
+*/
+#define PIN_ADC2       26      //LM35传感器的引脚
+#define PIN_GREENLED   22      // 绿色led的引脚
+#define PIN_YELLOWLED  21      //黄色led的引脚
+#define PIN_REDLED     19      //红色led的引脚
+void setup() {
+  Serial.begin(115200);
+  pinMode(PIN_GREENLED, OUTPUT); //设置PIN_GREENLED为输出
+  pinMode(PIN_YELLOWLED, OUTPUT);//设置pin_yellow为输出
+  pinMode(PIN_REDLED, OUTPUT);//设置PIN_REDLED为输出
+  pinMode(PIN_ADC2, INPUT);//设置PIN_ADC2为输入
+}
+
+void loop() {
+  int adcVal = analogRead(PIN_ADC2);
+  double voltage = adcVal / 1023.0 * 3.3;
+  float temperatureC = (voltage * 1000.0) / 10.0 ;
+  float temperatureF = (temperatureC * 1.8) + 32.0;
+  Serial.print("ADC Value: " + String(adcVal));
+  Serial.print("---Voltage Value: " + String(voltage) + "V");
+  Serial.print("---temperatureC: " + String(temperatureC) + "℃");
+  Serial.println("---temperatureF: " + String(temperatureF) + "F");
+  if (temperatureF >= 95) {
+    digitalWrite(PIN_GREENLED, LOW);
+    digitalWrite(PIN_YELLOWLED, LOW);
+    digitalWrite(PIN_REDLED, HIGH);
+  }
+  else if (temperatureF >= 90 && temperatureF < 95) {
+    digitalWrite(PIN_GREENLED, LOW);
+    digitalWrite(PIN_YELLOWLED, HIGH);
+    digitalWrite(PIN_REDLED, LOW);
+  }
+  else {
+    digitalWrite(PIN_GREENLED, HIGH);
+    digitalWrite(PIN_YELLOWLED, LOW);
+    digitalWrite(PIN_REDLED, LOW);
+  }
+  delay(500);
+}
+```
 
 项目结果：
 
@@ -1619,10 +2636,9 @@ LM35温度传感器工作原理：LM35是一种应用广泛的温度传感器，
 
 元件知识：
 
-    ![](media/43acc7d0046b997a4822d8fdab834c55.png)
+![](media/43acc7d0046b997a4822d8fdab834c55.png)
 
-摇杆模块：主要是采用PS2
-手柄摇杆元件，实际上摇杆模块有3个信号端引脚，模拟3维空间，摇杆模块的引脚分别是GND、VCC、信号端（B、X、Y），其中信号端X、Y模拟空间的X轴和Y轴，控制时，模块的X、Y信号端是连接单片机模拟口，通过控制2个模拟输入值来控制物体在空间X、Y轴的坐标。信号端B模拟空间Z轴，它一般是接数字口，做按键使用。
+摇杆模块：主要是采用PS2手柄摇杆元件，实际上摇杆模块有3个信号端引脚，模拟3维空间，摇杆模块的引脚分别是GND、VCC、信号端（B、X、Y），其中信号端X、Y模拟空间的X轴和Y轴，控制时，模块的X、Y信号端是连接单片机模拟口，通过控制2个模拟输入值来控制物体在空间X、Y轴的坐标。信号端B模拟空间Z轴，它一般是接数字口，做按键使用。
 
 VCC接单片机电源输出端V/VCC（3.3/5V），GND接单片机G/GND，原始状态下读出电压大约为1.65V/2.5V左右，对于X轴方向，当随箭头方向逐渐按下，读出电压值随着增加，且可以达到最大电压，随箭头相反方向逐渐按下，读出电压值逐渐减少，减少到最小电压；对于Y轴方向，当沿着模块上的箭头方向逐渐按下，读出电压值逐渐减少，减少到最小电压，随箭头相反方向逐渐按下，读出电压值随着增加，且可以达到最大电压；对于Z轴方向，信号端B接数字口，原始状态下输出0，按下输出1。这样，我们可以读取两个模拟值和一个数字口的高低电平情况，判断模块上摇杆的工作状态。
 
@@ -1644,6 +2660,30 @@ VCC接单片机电源输出端V/VCC（3.3/5V），GND接单片机G/GND，原始�
 
 ![](media/bbcd8beb3a10e0f5d73dbd527b9dc0f1.png)
 
+```C
+/*  
+ * 文件名 : 读取摇杆的值
+ * 描述 : 从摇杆传感器读取数据.
+ * 作者 : www.keyes-robot.com
+*/
+int xyzPins[] = {27, 26, 28};   //x, y, z引脚
+void setup() {
+  Serial.begin(115200);
+  pinMode(xyzPins[0], INPUT); //x 轴. 
+  pinMode(xyzPins[1], INPUT); //y 轴. 
+  pinMode(xyzPins[2], INPUT_PULLUP);   //z 轴是一个按钮.
+}
+
+// 在loop()中，使用analogRead()读取X轴和Y轴的值，使用digitalRead()读取Z轴的值，然后显示它们.
+void loop() {
+  int xVal = analogRead(xyzPins[0]);
+  int yVal = analogRead(xyzPins[1]);
+  int zVal = digitalRead(xyzPins[2]);
+  Serial.println("X,Y,Z: " + String(xVal) + ", " +  String(yVal) + ", " + String(zVal));
+  delay(500);
+}
+```
+
 代码上传到树莓派Pico板成功之后，利用USB线上电，打开串口监视器，设置波特率为115200。可以看到的现象是：串口监视器窗口将打印当前摇杆的模拟值和数字值，移动摇杆或按下它将改变串口监视器窗口中的模拟值和数字值。
 
 ![](media/fc2b5c16e690a43bb7a5edf08483e614.png)
@@ -1658,12 +2698,56 @@ VCC接单片机电源输出端V/VCC（3.3/5V），GND接单片机G/GND，原始�
 
 ![](media/4924a62ef1a0b35f3d6637a461929f03.png)
 
+项目代码：
+
+```C
+/*  
+ * 文件名 : 摇杆控制RGB
+ * 描述 : 摇杆控制RGB亮不同颜色的光.
+ * 作者 : www.keyes-robot.com
+*/
+int xyzPins[] = {27, 26, 28};   //x,y,z 引脚
+int ledPins[] = {18, 17, 16};    //定义红，绿，蓝led引脚
+void setup() {
+  pinMode(xyzPins[0], INPUT); //x 轴. 
+  pinMode(xyzPins[1], INPUT); //y 轴. 
+  pinMode(xyzPins[2], INPUT_PULLUP);   //z 轴是一个按钮.
+  for (int i = 0; i < 3; i++) {   //设置pwm通道,1KHz,8bit
+    pinMode(ledPins[i], OUTPUT);
+  }
+}
+
+// 在loop()中，使用analogRead()读取X轴和Y轴的值，使用digitalRead()读取Z轴的值，然后显示它们.
+void loop() {
+  int xVal = analogRead(xyzPins[0]);
+  int yVal = analogRead(xyzPins[1]);
+  int zVal = digitalRead(xyzPins[2]);
+  if (xVal < 200){
+     analogWrite(ledPins[0], 255); //共阴极LED，高电平点亮LED.
+     analogWrite(ledPins[1], 0);
+     analogWrite(ledPins[2], 0);
+   }
+  else if (xVal > 800){
+     analogWrite(ledPins[0], 0); 
+     analogWrite(ledPins[1], 255);
+     analogWrite(ledPins[2], 0);
+   }
+  else if (yVal < 200){
+     analogWrite(ledPins[0], 0); 
+     analogWrite(ledPins[1], 0);
+     analogWrite(ledPins[2], 255);
+   }
+  else if (yVal > 800){
+     analogWrite(ledPins[0], 255); 
+     analogWrite(ledPins[1], 255);
+     analogWrite(ledPins[2], 255);
+   }
+}
+```
+
 项目现象：
 
-项目代码上传成功后，利用USB线上电，可以看到的现象是：①如果摇杆在X方向上移动到最左边，RGB光变成红色;
-②如果摇杆在X方向上移动到最右边，RGB光变为绿色;
-③如果摇杆在Y方向上移动到最上面，RGB光变成白色;
-④如果摇杆在Y方向上移动到最下面，RGB光变成蓝色。
+项目代码上传成功后，利用USB线上电，可以看到的现象是：①如果摇杆在X方向上移动到最左边，RGB光变成红色;②如果摇杆在X方向上移动到最右边，RGB光变为绿色;③如果摇杆在Y方向上移动到最上面，RGB光变成白色;④如果摇杆在Y方向上移动到最下面，RGB光变成蓝色。
 
 ### 项目 29：温湿度表
 
@@ -1688,6 +2772,7 @@ VCC接单片机电源输出端V/VCC（3.3/5V），GND接单片机G/GND，原始�
 温度0~50℃。温湿度传感器应用专用的数字模块采集技术和温湿度传感技术，确保产品具有极高的可靠性和卓越的长期稳定性。温湿度传感器包括一个电阻式感湿元件和一个NTC测温元件，非常适用于对精度和实时性要求不高的温湿度测量场合。
 
 工作电压在3.3V-5.5V范围内。  
+
 温湿度传感器有三个引脚，分别为VCC，GND和S。S为数据输出的引脚。使用的是串行通讯。
 
 温湿度传感器的单总线格式定义：
@@ -1735,15 +2820,47 @@ VCC接单片机电源输出端V/VCC（3.3/5V），GND接单片机G/GND，原始�
 
 怎样添加DHT库：
 
-打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP
-库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.
-库文件\DHT.ZIP的文件。先单击“DHT.ZIP”文件，再单击“打开”。
+打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.库文件\DHT.ZIP的文件。先单击“DHT.ZIP”文件，再单击“打开”。
 
 ![](media/dc921422ddfcaeb374113e60cf41054a.png)
 
 ![](media/a8559618c04aac0190f02b9e8af696d6.png)
 
 DHT库添加完之后，你可以打开我们提供的代码：
+
+
+```C
+/*
+ * 文件名 : 温湿度传感器
+ * 描述 : 使用温湿度传感器测量温度和湿度。将结果打印到串口.
+ * 作者 : www.keyes-robot.com
+*/
+//在使用dht11之前，我们需要包含一个头文件. 
+//申请一个DHT对象，定义控制DHT的引脚为GPIO22.
+#include <dht.h>
+
+dht DHT;
+
+#define DHT11_PIN 22
+
+void setup(){
+  Serial.begin(115200);
+  delay(2000);
+  Serial.println("Type,\tstatus,\tHumidity (%),\tTemperature (C)");
+}
+
+void loop(){
+  int chk = DHT.read11(DHT11_PIN);//Read11()用于读取DHT11数据，并将返回值赋给变量chk.
+//如果read11()函数的返回值不等于DHTLIB_OK，这意味着数据读取失败; 
+//如果两者相等，则调用humuduty()和temperature()，获取当前环境的温湿度数据，并通过串口打印出来. 
+  if(chk == DHTLIB_OK){
+    Serial.println("humidity: " + String(DHT.humidity) + "%, temperature: " + String(DHT.temperature) + "C");
+  }else{
+    Serial.println("DHT11 Reading data error!");
+  }
+  delay(1000);
+}
+```
 
 代码上传到树莓派Pico板成功之后，利用USB线上电，打开串口监视器，设置波特率为115200。可以看到的现象是：串口监视器窗口将打印当前显示当前环境中的温湿度数据，如下图。
 
@@ -1753,9 +2870,7 @@ DHT库添加完之后，你可以打开我们提供的代码：
 
 现在我们开始用LCD_128X32_DOT打印温湿度传感器的值，我们会在LCD_128X32_DOT的屏幕上看到相应的值。让我们开始这个项目吧。请按照下面的接线图进行接线：
 
-特别注意：这里必须使用4P
-转杜邦线母单10厘米连接LCD_128X32_DOT，LCD_128X32_DOT才会显示正常；否则，使用4P
-转杜邦线母单20厘米，LCD_128X32_DOT可能会显示不正常。
+特别注意：这里必须使用4P转杜邦线母单10厘米连接LCD_128X32_DOT，LCD_128X32_DOT才会显示正常；否则，使用4P转杜邦线母单20厘米，LCD_128X32_DOT可能会显示不正常。
 
 ![](media/beb75f9b8c582b57cb5846535f0575a2.png)
 
@@ -1763,10 +2878,49 @@ DHT库添加完之后，你可以打开我们提供的代码：
 
 项目代码：
 
-    前面已经添加过DHT和lcd128_32_io库，可以不用重复添加。如果没有添加，就需要添加DHT和lcd128_32_io库，添加DHT库的方法请参照本项目的上面方法，添加lcd128_32_io库的方法请参照项目
-    17：I2C 128×32 LCD中的方法。
+前面已经添加过DHT和lcd128_32_io库，可以不用重复添加。如果没有添加，就需要添加DHT和lcd128_32_io库，添加DHT库的方法请参照本项目的上面方法，添加lcd128_32_io库的方法请参照项目17：I2C 128×32 LCD中的方法。
 
 DHT和lcd128_32_io库添加完成后，你可以打开我们提供的代码：
+
+```C
+/*
+ * 文件名 : 温湿度仪表
+ * 描述 : LCD显示温度值和湿度值.
+ * 作者  : www.keyes-robot.com
+*/
+//在使用dht11之前，我们需要包含一个头文件. 
+//申请一个DHT对象，定义控制DHT的引脚为GPIO22.
+#include <dht.h>
+dht DHT;
+#define DHT11_PIN 22
+//LCD128*32的库文件和lCD128*32的引脚
+#include "lcd128_32_io.h"
+lcd lcd(20, 21); //创建lCD128*32引脚，sda->20， scl->21
+
+void setup(){
+  lcd.Init(); //初始化
+  lcd.Clear();  //清除
+}
+char string[10];
+
+//LCD显示湿度值和温度值
+void loop(){
+  int chk = DHT.read11(DHT11_PIN);//Read11()用于读取DHT11数据，并将返回值赋给变量chk.
+  lcd.Cursor(0,0); //设置显示位置
+  lcd.Display("Temper:"); //设置显示参数
+  lcd.Cursor(0,8);
+  lcd.DisplayNum(DHT.temperature);
+  lcd.Cursor(0,11);
+  lcd.Display("C");
+  lcd.Cursor(2,0); 
+  lcd.Display("humid:");
+  lcd.Cursor(2,8);
+  lcd.DisplayNum(DHT.humidity);
+  lcd.Cursor(2,11);
+  lcd.Display("%");
+  delay(200);
+}
+```
 
 项目现象：
 
@@ -1788,7 +2942,7 @@ DHT和lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 
 元件知识：
 
-    HC-SR04超声波传感器：像蝙蝠一样使用声纳来确定与物体的距离，它提供了精准的非接触范围检测，高精度和稳定的读数。它的操作不受阳光或黑色材料的影响，就像精密的照相机(在声学上像布料这样比较软的材料很难被探测到)。它带有超声波发射器和接收器。
+HC-SR04超声波传感器：像蝙蝠一样使用声纳来确定与物体的距离，它提供了精准的非接触范围检测，高精度和稳定的读数。它的操作不受阳光或黑色材料的影响，就像精密的照相机(在声学上像布料这样比较软的材料很难被探测到)。它带有超声波发射器和接收器。
 
 ![](media/653a2e40ce31d039c801edce1050114d.png)
 
@@ -1808,15 +2962,49 @@ DHT和lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 
 读取超声波传感器距离值
 
-    我们将从一个简单的超声波测距开始，并打印测量的距离。
+我们将从一个简单的超声波测距开始，并打印测量的距离。
     
-    ![](media/8835e046cfb2a4b1d6da5e78c473ccce.png)
+![](media/8835e046cfb2a4b1d6da5e78c473ccce.png)
     
-    HC-SR04超声波传感器有四个引脚：Vcc、Trig、Echo和GND。Vcc引脚提供产生超声波脉冲的电源，接Vcc/+5V。GND引脚接地/GND。Trig引脚是控制板发送信号来启动超声波脉冲的地方。Echo引脚是超声波传感器向控制板发送关于超声波脉冲行程持续时间的信息的地方。按下图接线：
+HC-SR04超声波传感器有四个引脚：Vcc、Trig、Echo和GND。Vcc引脚提供产生超声波脉冲的电源，接Vcc/+5V。GND引脚接地/GND。Trig引脚是控制板发送信号来启动超声波脉冲的地方。Echo引脚是超声波传感器向控制板发送关于超声波脉冲行程持续时间的信息的地方。按下图接线：
     
-    ![](media/9b58d226f676712f774b55978a89938c.png)
+ ![](media/9b58d226f676712f774b55978a89938c.png)
 
 ![](media/477cc941c0c2ad711a6b326f441c49e9.png)
+
+
+```C
+/*  
+ * 文件名 : 测距仪表
+ * 描述 : 使用超声波模块测量距离.
+ * 作者 : www.keyes-robot.com
+*/
+const int TrigPin = 27; // 定义TrigPin
+const int EchoPin = 26; // 定义EchoPin.
+int duration = 0; // 将持续时间的初始值定义为0
+int distance = 0;//定义距离的初始值为0
+void setup() 
+{
+  pinMode(TrigPin , OUTPUT); // 设置trigPin为输出模式
+  pinMode(EchoPin , INPUT); // 设置echoPin为输入模式
+  Serial.begin(115200);  // 设置波特率为115200.
+}
+void loop()
+{
+ // 使trigPin高电平输出持续10μs触发HC_SR04 
+  digitalWrite(TrigPin , HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TrigPin , LOW);
+  // 等待HC-SR04回到高电平，测量这个等待时间
+  duration = pulseIn(EchoPin , HIGH);
+  // 根据时间计算距离
+  distance = (duration/2) / 28.5 ;
+  Serial.print("Distance: ");
+  Serial.print(distance); //串口打印距离值
+  Serial.println("cm");
+  delay(100); //等待100ms之间的pings(大约20pings /秒).
+}
+```
 
 上传代码成功之后，利用USB线上电，打开串口监视器，设置波特率为115200。可以看到的现象是：串口监视器窗口将打印超声波传感器和物体之间的距离值。
 
@@ -1824,11 +3012,85 @@ DHT和lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 
 超声波测距仪的电路图和接线图：
 
-    接下来，我们将使用树莓派Pico板控制超声波传感器和4个LED模拟超声波测距仪。按如下图接好线：
+接下来，我们将使用树莓派Pico板控制超声波传感器和4个LED模拟超声波测距仪。按如下图接好线：
     
-    ![](media/bf201b7c14c97e201dadcb24c687d3d5.png)
+![](media/bf201b7c14c97e201dadcb24c687d3d5.png)
 
 ![](media/6596aa78b3aceb528058e22b3a26ed52.png)
+
+项目代码：
+
+```C
+/*  
+ * 文件名 : 测距仪表
+ * 描述 : 四个led由超声波测距控制.
+ * 作者 : www.keyes-robot.com
+*/
+const int TrigPin = 27;    // 定义TrigPin
+const int EchoPin = 26;    // 定义EchoPin.
+const int PIN_LED1 = 19;    // 定义PIN_LED1
+const int PIN_LED2 = 18;    // 定义PIN_LED2
+const int PIN_LED3 = 17;    // 定义PIN_LED3
+const int PIN_LED4 = 16;    // 定义PIN_LED4
+int duration = 0;    // 将持续时间的初始值定义为0
+int distance = 0;   // 定义距离的初始值为0
+void setup() 
+{
+  pinMode(TrigPin , OUTPUT); // 设置trigPin为输出模式
+  pinMode(EchoPin , INPUT); // 设置echoPin为输入模式
+  pinMode(PIN_LED1 , OUTPUT);  // 设置PIN_LED1为输出模式
+  pinMode(PIN_LED2 , OUTPUT);  // 设置PIN_LED2为输出模式
+  pinMode(PIN_LED3 , OUTPUT);  // 设置PIN_LED3为输出模式
+  pinMode(PIN_LED4 , OUTPUT);  // 设置PIN_LED4为输出模式
+  Serial.begin(115200);  // 设置波特率为115200.
+}
+void loop()
+{
+// 使trigPin高电平输出持续10μs触发HC_SR04 
+  digitalWrite(TrigPin , HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TrigPin , LOW);
+// 等待HC-SR04回到高电平，测量这个等待时间
+  duration = pulseIn(EchoPin , HIGH);
+// 根据时间计算距离
+  distance = (duration/2) / 28.5 ;
+  Serial.print("Distance: ");
+  Serial.print(distance); //串口打印距离值
+  Serial.println("cm");
+  if ( distance <= 7 )
+  {
+    digitalWrite(PIN_LED1, HIGH);
+  }
+  else
+  {
+    digitalWrite(PIN_LED1, LOW);
+  }
+  if ( distance <= 14 )
+  {
+    digitalWrite(PIN_LED2, HIGH);
+  }
+  else
+  {
+    digitalWrite(PIN_LED2, LOW);
+  }
+  if ( distance <= 21 )
+  {
+    digitalWrite(PIN_LED3, HIGH);
+  }
+  else
+  {
+    digitalWrite(PIN_LED3, LOW);
+  }
+  if ( distance <= 28 )
+  {
+    digitalWrite(PIN_LED4, HIGH);
+  }
+  else
+  {
+    digitalWrite(PIN_LED4, LOW);
+  }
+} 
+```
 
 项目现象：
 
@@ -1852,15 +3114,15 @@ DHT和lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 
 元件知识：
 
-    热敏电阻：热敏电阻是一种温度敏感电阻。当热敏电阻感应到温度的变化时，它的电阻就会发生变化。我们可以利用热敏电阻的这种特性来检测温度强度。热敏电阻及其电子符号如下所示。
+热敏电阻：热敏电阻是一种温度敏感电阻。当热敏电阻感应到温度的变化时，它的电阻就会发生变化。我们可以利用热敏电阻的这种特性来检测温度强度。热敏电阻及其电子符号如下所示。
     
-    ![](media/809b8634747fb295021f12e3b92b7894.png)
+![](media/809b8634747fb295021f12e3b92b7894.png)
     
-    热敏电阻的电阻值与温度的关系为：
+热敏电阻的电阻值与温度的关系为：
     
-    ![](media/04312ac83502354f253ae6cba9f005dd.wmf)
+![](media/04312ac83502354f253ae6cba9f005dd.wmf)
     
-    式中：
+式中：
     
     Rt为热敏电阻在T2温度下的电阻；
     
@@ -1870,7 +3132,7 @@ DHT和lcd128_32_io库添加完成后，你可以打开我们提供的代码：
     
     B为温度指数；
     
-    T1，T2是开尔文温度(绝对温度)，开尔文温度=273.15     +摄氏温度。对于热敏电阻的参数，我们使用：B=3950,     R=10KΩ，T1=25℃。热敏电阻的电路连接方法与光敏电阻类似，如下所示：
+T1，T2是开尔文温度(绝对温度)，开尔文温度=273.15     +摄氏温度。对于热敏电阻的参数，我们使用：B=3950,     R=10KΩ，T1=25℃。热敏电阻的电路连接方法与光敏电阻类似，如下所示：
 
 ![](media/ac0d68aac58bffa5c99e1d0ed3a8bc37.jpeg)
 
@@ -1880,11 +3142,34 @@ DHT和lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 
 读取热敏电阻的值：
 
-    首先我们学习了热敏电阻读取当前的ADC值、电压值和温度值，并将其打印出来。请按下面的接线图接好线：
+首先我们学习了热敏电阻读取当前的ADC值、电压值和温度值，并将其打印出来。请按下面的接线图接好线：
     
-    ![](media/d1cc8f28e153531547d11ea977c37eca.png)
+ ![](media/d1cc8f28e153531547d11ea977c37eca.png)
 
 ![](media/934f77b466c3f5391233dbbe62afecd6.png)
+
+
+```C
+/*  
+ * 文件名 : 读取热敏电阻模拟值
+ * 描述 : 用热敏电阻制作温度计.
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_ADC1   27
+void setup() {
+  Serial.begin(115200);
+}
+
+void loop() {
+  int adcValue = analogRead(PIN_ADC1);                            // 读ADC引脚
+  double voltage = (float)adcValue / 1023.0 * 3.3;                // 计算电压
+  double Rt = 10 * voltage / (3.3 - voltage);                     //计算热敏电阻的电阻值
+  double tempK = 1 / (1 / (273.15 + 25) + log(Rt / 10) / 3950.0); //计算温度(开尔文)
+  double tempC = tempK - 273.15;                                  //计算温度(摄氏度)
+  Serial.println("Voltage: " + String(voltage) + "V,\t\t" + "Kelvins: " + String(tempK) + "K,\t" + "Temperature: " + String(tempC) + "C");
+  delay(1000);
+}
+```
 
 代码上传到树莓派Pico板成功之后，利用USB线上电，打开串口监视器，设置波特率为115200。你会看到的现象是：串口监视器窗口将不断显示热敏电阻当前的ADC值、电压值和温度值。试着用食指和拇指捏一下热敏电阻(不要碰触导线)一小段时间，你应该会看到温度值增加。
 
@@ -1892,7 +3177,7 @@ DHT和lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 
 温度仪表电路图和接线图：
 
-    特别注意：这里必须使用4P     转杜邦线母单10厘米连接LCD_128X32_DOT，LCD_128X32_DOT才会显示正常；否则，使用4P     转杜邦线母单20厘米，LCD_128X32_DOT可能会显示不正常。
+特别注意：这里必须使用4P     转杜邦线母单10厘米连接LCD_128X32_DOT，LCD_128X32_DOT才会显示正常；否则，使用4P     转杜邦线母单20厘米，LCD_128X32_DOT可能会显示不正常。
 
 ![](media/458af2aaa2a441e37e460179529084f7.png)
 
@@ -1902,9 +3187,7 @@ DHT和lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 
 前面已经添加过lcd128_32_io库，可以不用重复添加。如果没有添加，就需要添加lcd128_32_io库，添加第三方库的步骤如下:
 
-打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP
-库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.
-库文件\LCD_128X32.ZIP的文件，先选中LCD_128X32.ZIP文件，再单击“打开”。
+打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.库文件\LCD_128X32.ZIP的文件，先选中LCD_128X32.ZIP文件，再单击“打开”。
 
 ![](media/1da6a8c4a21f5553c747e399f77f6239.png)
 
@@ -1913,6 +3196,46 @@ DHT和lcd128_32_io库添加完成后，你可以打开我们提供的代码：
 项目代码：
 
 lcd128_32_io库添加完成后，你可以打开我们提供的代码：
+
+```C
+/*  
+ * 文件名  : 温度仪表
+ * 描述 : LCD 显示热敏电阻的温度.
+ * 作者 : www.keyes-robot.com
+*/
+#include "lcd128_32_io.h"
+
+#define PIN_ADC1  27
+
+lcd lcd(20, 21); //创建 lCD128 *32 引脚，sda->20， scl->21
+
+void setup()  {
+  lcd.Init(); //初始化
+  lcd.Clear();  //清除
+}
+char string[10];
+
+void loop() {
+  int adcValue = analogRead(PIN_ADC1);                            //读ADC引脚
+  double voltage = (float)adcValue / 1023.0 * 3.3;                //计算电压
+  double Rt = 10 * voltage / (3.3 - voltage);                     //计算热敏电阻的电阻值
+  double tempK = 1 / (1 / (273.15 + 25) + log(Rt / 10) / 3950.0); //计算温度(开尔文)
+  double tempC = tempK - 273.15;                                  //计算温度(摄氏度)
+  lcd.Cursor(0,0); //设置显示位置
+  lcd.Display("Voltage:"); //设置显示参数
+  lcd.Cursor(0,8);
+  lcd.DisplayNum(voltage);
+  lcd.Cursor(0,11);
+  lcd.Display("V");
+  lcd.Cursor(2,0); 
+  lcd.Display("tempC:");
+  lcd.Cursor(2,8);
+  lcd.DisplayNum(tempC);
+  lcd.Cursor(2,11);
+  lcd.Display("C");
+  delay(200);
+}
+```
 
 项目现象：
 
@@ -1974,30 +3297,65 @@ RFID-MFRC522模块：MFRC522是一个高度集成的读取/写入器IC，用于1
 
 项目接线图：
 
-    我们将读取RFID卡的唯一ID号(UID)，识别RFID卡的类型，并通过串口显示相关信息，其接线图如下所示：
+我们将读取RFID卡的唯一ID号(UID)，识别RFID卡的类型，并通过串口显示相关信息，其接线图如下所示：
 
 ![](media/269fa756fbeca7d983e2c42ea027ed48.png)
 
 添加MFRC522_I2C和Wire库：
 
-    如果你还没有添加“MFRC522_I2C”和“Wire”库，请在学习之前添加它们。添加第三方库的步骤如下:
+如果你还没有添加“MFRC522_I2C”和“Wire”库，请在学习之前添加它们。添加第三方库的步骤如下:
 
-打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP
-库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.
-库文件\MFRC522_I2C.ZIP的文件，先选中MFRC522_I2C.ZIP文件，再单击“打开”。
+打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.库文件\MFRC522_I2C.ZIP的文件，先选中MFRC522_I2C.ZIP文件，再单击“打开”。
 
 ![](media/51c89d267ce584fd44e12a5999b3f254.png)
 
 ![](media/d7a720d392ff806303404efeef158b47.png)
 
-接着在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.
-库文件\Wire.ZIP的文件，先选中Wire.ZIP文件，再单击“打开”。
+接着在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.库文件\Wire.ZIP的文件，先选中Wire.ZIP文件，再单击“打开”。
 
 ![](media/afe6f625f14e4719cc994a4aea586020.png)
 
 RFID 读取 UID：
 
 “MFRC522_I2C”和“Wire”库都添加完后，你可以打开我们提供的代码：
+
+
+```C
+/*  
+ * 文件名  : RFID
+ * 描述 : RFID 读取 UID
+ * 作者  : www.keyes-robot.com
+*/
+#include <Wire.h>
+#include "MFRC522_I2C.h"
+// IIC引脚默认为Raspberry Pi Pico的GPIO4和GPIO5
+// 0x28是SDA的i2c地址，如果不匹配，请检查你的地址与i2c.
+MFRC522 mfrc522(0x28);   // 创建 MFRC522.
+String rfid_str = "";
+
+void setup() {
+  Serial.begin(115200);           // 初始化与PC机的串行通信
+  Wire.begin();                   // 初始化 I2C
+  mfrc522.PCD_Init();             // 初始化 MFRC522
+}
+
+void loop() {
+  // 
+  if ( ! mfrc522.PICC_IsNewCardPresent() || ! mfrc522.PICC_ReadCardSerial() ) {
+    delay(50);
+    return;
+  }
+  
+  rfid_str = "";//数字字符串为空
+  Serial.print(F("Card UID:"));
+  for (byte i = 0; i < mfrc522.uid.size; i++) {
+    rfid_str = rfid_str + String(mfrc522.uid.uidByte[i], HEX);  //转化为字符串
+    //Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
+    //Serial.print(mfrc522.uid.uidByte[i], HEX);
+  } 
+  Serial.println(rfid_str);
+}
+```
 
 编译并上传代码到树莓派Pico板，代码上传成功后，利用USB线上电，打开串口监视器，设置波特率为115200。你会看到的现象是：将门卡和钥匙扣分别靠近模块感应区，串口监视器窗口将分别显示门卡和钥匙扣的卡号值。如下图所示：
 
@@ -2007,19 +3365,17 @@ RFID 读取 UID：
 
 RFID MFRC522的接线图：
 
-    现在使用RFID-MFRC522模块、白卡/钥匙扣和舵机模拟做一个智能门禁系统。当白卡/钥匙扣靠近RFID-MFRC522模块感应区舵机转动。按照下图进行接线。
+现在使用RFID-MFRC522模块、白卡/钥匙扣和舵机模拟做一个智能门禁系统。当白卡/钥匙扣靠近RFID-MFRC522模块感应区舵机转动。按照下图进行接线。
     
-    ![](media/da47f135c6abe8c1e49f4803a532a361.png)
+ ![](media/da47f135c6abe8c1e49f4803a532a361.png)
 
 添加MFRC522_I2C，Wire和Servo库：
 
-    前面已经添加过MFRC522_I2C，Wire和Servo库，可以不用重复添加。如果还没有添加，就需要添加MFRC522_I2C，Wire和Servo库，添加第三方库的步骤如下:
+前面已经添加过MFRC522_I2C，Wire和Servo库，可以不用重复添加。如果还没有添加，就需要添加MFRC522_I2C，Wire和Servo库，添加第三方库的步骤如下:
 
 先添加Servo库：
 
-打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP
-库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.
-库文件\\ Servo.ZIP的文件，先选中Servo.ZIP文件，再单击“打开”。
+打开Arduino IDE，单击“项目”→“加载库”→“添加 .ZIP库...”。在弹出窗口中找到该目录下名为：4. Arduino 教程\1. Windows 系统\3.库文件\\ Servo.ZIP的文件，先选中Servo.ZIP文件，再单击“打开”。
 
 ![](media/20ba44e9a02e804b96e25cfb106b87cc.png)
 
@@ -2027,13 +3383,55 @@ RFID MFRC522的接线图：
 
 再添加MFRC522_I2C和Wire库：
 
-如果在本项目的上面实验（RFID 读取
-UID）已经添加过MFRC522_I2C和Wire库，就可以不用重复添加；如果还没有添加MFRC522_I2C和Wire库，就参照本项目的上面实验（RFID
-读取 UID）添加方法添加。
+如果在本项目的上面实验（RFID 读取UID）已经添加过MFRC522_I2C和Wire库，就可以不用重复添加；如果还没有添加MFRC522_I2C和Wire库，就参照本项目的上面实验（RFID读取 UID）添加方法添加。
 
 项目代码：
 
-    MFRC522_I2C，Wire和Servo库添加完成后，你可以打开我们提供的代码：
+MFRC522_I2C，Wire和Servo库添加完成后，你可以打开我们提供的代码：
+
+
+```C
+/* 
+ * 文件名 : RFID mfrc522 控制 舵机
+ * 描述 : RFID 控制舵机模拟开门
+ * 作者 : www.keyes-robot.com
+*/
+#include <Servo.h>
+#include <Wire.h>
+#include <MFRC522_I2C.h>
+MFRC522 mfrc522(0x28);
+Servo myservo;
+String rfid_str = "";
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin();
+  mfrc522.PCD_Init();
+  myservo.attach(2);//舵机连接到GP2
+  myservo.write(0);//初始角度是0度
+  delay(500);
+}
+
+void loop() {
+   if ( ! mfrc522.PICC_IsNewCardPresent() || ! mfrc522.PICC_ReadCardSerial() ) {
+    delay(50);
+    return;
+  }
+  rfid_str = ""; //设置字符串为空
+  Serial.print(F("Card UID:"));
+  for (byte i = 0; i < mfrc522.uid.size; i++) {
+    rfid_str = rfid_str + String(mfrc522.uid.uidByte[i], HEX);  //转化为字符串
+    //Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
+    //Serial.print(mfrc522.uid.uidByte[i], HEX);
+  } 
+  Serial.println(rfid_str); 
+  if (rfid_str == "93adf720" || rfid_str == "39b646c2") {
+    myservo.write(180);            // 舵机旋转180°
+    delay(500);
+    Serial.println("  open the door!");
+    }
+}
+```
 
 特别注意：对于不同的RFID-MFRC522的白卡和钥匙扣，其RFID-MFRC522读取的白卡和钥匙扣值可能都不一样。你们将自己的RFID-MFRC522模块读取的白卡和钥匙扣值替换程序代码中对应的白卡和钥匙扣值，要不然上传代码至Raspberry Pi Pico上可能会导致白卡和钥匙扣控制不了舵机。
 
@@ -2041,9 +3439,9 @@ UID）已经添加过MFRC522_I2C和Wire库，就可以不用重复添加；如�
 
 10. 项目现象：
 
-    编译并上传代码到树莓派Pico板，代码上传成功后，利用USB线上电，打开串口监视器，设置波特率为115200；你会看到的现象是：当我们使用白卡或者钥匙卡刷卡时，串口监视器显示出白卡或者钥匙卡信息和“open     the door”，如下图，舵机转动到对应的角度模拟开门。
+编译并上传代码到树莓派Pico板，代码上传成功后，利用USB线上电，打开串口监视器，设置波特率为115200；你会看到的现象是：当我们使用白卡或者钥匙卡刷卡时，串口监视器显示出白卡或者钥匙卡信息和“open     the door”，如下图，舵机转动到对应的角度模拟开门。
 
-    ![](media/4c02154fa98d2481db4b495b18ec2edd.png)
+![](media/4c02154fa98d2481db4b495b18ec2edd.png)
 
 ### 项目 33：键盘控制门
 
@@ -2063,21 +3461,45 @@ UID）已经添加过MFRC522_I2C和Wire库，就可以不用重复添加；如�
 
 元件知识：
 
-    4\*4矩阵键盘：键盘是一种集成了许多键的设备。如下图所示，一个4x4键盘集成16个键。
+4\*4矩阵键盘：键盘是一种集成了许多键的设备。如下图所示，一个4x4键盘集成16个键。
     
-    ![](media/fcd187eb009098d691927511606c991b.jpeg)
+![](media/fcd187eb009098d691927511606c991b.jpeg)
     
-    与LED矩阵集成一样，在4x4键盘中，每排键都是用一根引脚连接，每一列键都是一样的。这样的连接可以减少处理器端口的占用。内部电路如下所示。
+与LED矩阵集成一样，在4x4键盘中，每排键都是用一根引脚连接，每一列键都是一样的。这样的连接可以减少处理器端口的占用。内部电路如下所示。
     
-    ![](media/5ebdacba906622079e0ef41dc1ea3fdf.png)
+ ![](media/5ebdacba906622079e0ef41dc1ea3fdf.png)
 
 使用方法类似于矩阵LED，即使用行扫描或列扫描方法检测每列或每行上的键的状态。以列扫描法为例，向第4列(Pin4)发送低电平，检测第1、2、3、4行电平状态，判断A、B、C、D键是否按下。然后依次将低电平发送到列3、2、1，检测是否有其它键被按下。然后，你可以获得所有键的状态。
 
 读取4\*4矩阵键盘的键值：
 
-    我们首先使用一个简单的代码读取4\*4矩阵键盘的键值，并将其打印出来，其接线图如下所示：
+我们首先使用一个简单的代码读取4\*4矩阵键盘的键值，并将其打印出来，其接线图如下所示：
     
-    ![](media/29629f4ded6b09ca14050716373dcf26.png)![](media/e7f75540c95c680f6ef9b70704a5cafb.png)
+![](media/29629f4ded6b09ca14050716373dcf26.png)
+
+![](media/e7f75540c95c680f6ef9b70704a5cafb.png)
+
+
+```C
+/*  
+ * 文件名 : 4x4矩阵键盘显示 
+ * 描述 : 获取矩阵键盘的值
+ * 作者 : www.keyes-robot.com
+*/
+#include "Keypad.h"
+
+void setup(){
+  Serial.begin(115200);
+  keyInit();
+}
+
+void loop(){
+  char keyValue = getKey(0);
+  if (keyValue != '\0')
+    Serial.println(keyValue);
+  delay(50);
+}
+```
 
 上传代码成功之后，利用USB线上电，打开串口监视器，设置波特率为115200。可以看到的现象是：按下键盘，串口监视器窗口将打印对应的键值，如下图所示。
 
@@ -2090,6 +3512,67 @@ UID）已经添加过MFRC522_I2C和Wire库，就可以不用重复添加；如�
 ![](media/a3ff2cd6ff82ae35f18f335eda545656.png)
 
 ![](media/ff4c106ffcb5041252558ceef89c4006.png)
+
+项目代码：
+
+```C
+/*  
+ * 文件名 : 键盘控制门
+ * 描述 : 制作一个简单的密码锁.
+ * 作者 : www.keyes-robot.com
+*/
+#include "Keypad.h"
+#include <Servo.h>
+
+Servo  myservo;     // 创建舵机对象来控制舵机
+int servoPin = 2;   // 定义舵机引脚
+int buzzerPin = 0; // 定义蜂鸣器引脚
+
+String passWord = "1234"; // 保存正确的密码
+String keyIn; 
+
+void setup() {
+  keyInit();
+  myservo.attach(servoPin);  // 将舵机在servoPin上安装到舵机对象上
+  myservo.write(0);                     // 设定舵机的初始位置
+  pinMode(buzzerPin, OUTPUT);
+  Serial.begin(115200);
+  keyIn = "";
+  Serial.println(keyIn);
+}
+
+void loop() {
+  char keyPressed = getKey(0);        // 获取字符输入
+  if (keyPressed!='\0') {             // 处理输入字符
+    digitalWrite(buzzerPin, HIGH);    // 每次按下该键时发出提示音
+    delay(200);
+    digitalWrite(buzzerPin, LOW);
+    keyIn += keyPressed;              // 保存输入字符
+    Serial.println(keyPressed);       // 输入后判断正确性
+    if (keyIn.length() == 4) {
+      bool isRight = true;            // 保存密码是否正确
+      if( passWord != keyIn){
+        isRight = !true;
+      }
+      if (isRight) {                  // 输入的密码是否正确
+        myservo.attach(servoPin);
+        myservo.write(90);            // 舵机旋转到90°
+        delay(2000);                  // 延迟一段时间
+        myservo.write(0);             // 舵机旋转到0°
+        Serial.println("passWord right!");
+      }
+      else {                          // 输入密码错误
+        digitalWrite(buzzerPin, HIGH);// 输入错误密码提示音
+        delay(1000);
+        digitalWrite(buzzerPin, LOW);
+        Serial.println("passWord error!");
+      }
+      keyIn = ""; // 将输入字符数重置为0
+    }
+  }
+  delay(200);
+}
+```
 
 项目现象：
 
@@ -2139,6 +3622,29 @@ UID）已经添加过MFRC522_I2C和Wire库，就可以不用重复添加；如�
 
 ![](media/5a132241d4bc918d86182d2a4b232ed9.png)
 
+```C
+/*  
+ * 文件名 : 解码红外信号
+ * 描述 : 解码红外遥控器，通过串口打印出来.
+ * 作者 : www.keyes-robot.com
+*/
+#include "IR.h"
+#define IR_Pin 16
+
+void setup() {
+  Serial.begin(115200);
+  IR_Init(IR_Pin);
+}
+
+void loop() {
+  if(flagCode){
+    int irValue = IR_Decode(flagCode);
+    Serial.println(irValue, HEX);
+    IR_Release();
+  }
+}
+```
+
 代码上传到树莓派Pico板成功之后，利用USB线上电，打开串口监视器，设置波特率为115200。可以看到的现象是：将红外遥控器发射器对准红外接收头，按下红外控制器上的按键，串口监视器窗口将打印当前接收到的按键编码值。
 
 ![](media/b928161e22a7c0ee94977850ca706cda.png)
@@ -2153,6 +3659,109 @@ UID）已经添加过MFRC522_I2C和Wire库，就可以不用重复添加；如�
 
 ![](media/5a2531a167131af693af10189b4afe36.png)
 
+项目代码：
+
+```C
+/*  
+ * 文件名 : 红外控制声音和LED
+ * 描述 : 红外遥控控制RGB和无源蜂鸣器.
+ * 作者 : www.keyes-robot.com
+*/
+#include "IR.h"
+
+#define irPin 16
+#define R_Pin 19
+#define G_Pin 18
+#define B_Pin 17
+#define buzzerPin 15
+
+void setup() {
+  Serial.begin(115200);
+  IR_Init(irPin);
+  pinMode(R_Pin, OUTPUT);
+  pinMode(G_Pin, OUTPUT);
+  pinMode(B_Pin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
+}
+
+void loop() {
+  if(flagCode){
+    int irValue = IR_Decode(flagCode);
+    Serial.println(irValue, HEX);
+    handleControl(irValue);
+    IR_Release();
+  }
+}
+
+void handleControl(unsigned long value) {
+
+  // 处理命令
+  if (value == 0xFF6897) // 接收数字“1”
+  { 
+      analogWrite(R_Pin, 255); //共阴极LED，高电平点亮LED.
+      analogWrite(G_Pin, 0);
+      analogWrite(B_Pin, 0);
+      tone(buzzerPin, 262);//DO音响1秒
+      delay(1000);
+  }
+   else if (value == 0xFF9867) // 接收数字“2”
+   { 
+      analogWrite(R_Pin, 0); 
+      analogWrite(G_Pin, 255); //共阴极LED，高电平点亮LED.
+      analogWrite(B_Pin, 0);
+      tone(buzzerPin, 294);//Re音响750毫秒
+      delay(750);
+   }
+    else if (value == 0xFFB04F) // 接收数字“3”
+   { 
+      analogWrite(R_Pin, 0); 
+      analogWrite(G_Pin, 0);
+      analogWrite(B_Pin, 255); //共阴极LED，高电平点亮LED.
+      tone(buzzerPin, 330);//Mi音响625毫秒
+      delay(625);
+    }
+    else if (value == 0xFF30CF) // 接收数字 '4'
+   {  
+      analogWrite(R_Pin, 255); 
+      analogWrite(G_Pin, 255);
+      analogWrite(B_Pin, 0);
+      tone(buzzerPin, 349);//Fa 音响500毫秒
+      delay(500);
+    }
+    else if (value == 0xFF18E7) // 接收数字 '5'
+   {  
+      analogWrite(R_Pin, 255); 
+      analogWrite(G_Pin, 0);
+      analogWrite(B_Pin, 255);
+      tone(buzzerPin, 392);//So音响375毫秒
+      delay(375);
+    }
+    else if (value == 0xFF7A85)  // 接收数字 '6'
+   {  
+      analogWrite(R_Pin, 0); 
+      analogWrite(G_Pin, 255);
+      analogWrite(B_Pin, 255);
+      tone(buzzerPin, 440);//La音响250毫秒
+      delay(250);
+    }
+    else if (value == 0xFF10EF)  // 接收数字 '7'
+   {   
+      analogWrite(R_Pin, 255); 
+      analogWrite(G_Pin, 255);
+      analogWrite(B_Pin, 255);
+      tone(buzzerPin, 494);//Si音响125毫秒
+      delay(125);
+    }
+    else{
+      analogWrite(R_Pin, 0); 
+      analogWrite(G_Pin, 0);
+      analogWrite(B_Pin, 0);
+      noTone(buzzerPin);//Si音响125毫秒
+      delay(1000);
+      }
+  }
+```
+
 项目现象：
 
 项目代码上传成功后，利用USB线上电，你会看到的现象是：按红外遥控器的1~7键，可以听到do、re、mi、fa、sol、la、si等蜂鸣器的声音，同时RGB分别亮红灯，绿灯，蓝灯，黄灯，洋红灯，蓝绿灯，白灯。按其他另一按键（除1-7键以外），蜂鸣器就停止播放，RGB熄灭。
@@ -2163,7 +3772,7 @@ UID）已经添加过MFRC522_I2C和Wire库，就可以不用重复添加；如�
 
 .实验简介：
 
-    ESP8266串口WiFi ESP-01模块，它是一款超低功耗的UART-WiFi     透传模块，拥有业内极富竞争力的封装尺寸和超低能耗技术，专为移动设备和物联网应用设计，可将用户的物理设备连接到Wi-Fi     无线网络上，进行互联网或局域网通信，实现联网功能。
+ESP8266串口WiFi ESP-01模块，它是一款超低功耗的UART-WiFi     透传模块，拥有业内极富竞争力的封装尺寸和超低能耗技术，专为移动设备和物联网应用设计，可将用户的物理设备连接到Wi-Fi     无线网络上，进行互联网或局域网通信，实现联网功能。
 
 实验元件：
 
@@ -2177,8 +3786,7 @@ UID）已经添加过MFRC522_I2C和Wire库，就可以不用重复添加；如�
 
 USB转ESP-01S WiFi模块串口测试扩展板：适用于ESP-01S WiFi模块，扩展板的拨动开关打到flash boot端，直插于电脑USB口，用安信可串口调试助手测试AT指令。
 
-扩展板的拨动开关打到Uart Download
-端，直插于电脑USB口，ESP-01模块处于下载模式，通过安信可固件下载软件可下载固件到ESP-01模块中。
+扩展板的拨动开关打到Uart Download端，直插于电脑USB口，ESP-01模块处于下载模式，通过安信可固件下载软件可下载固件到ESP-01模块中。
 
 ![](media/408f9f823aab6078768f08462eda209b.png)
 
@@ -2188,15 +3796,15 @@ ESP8266串口WiFi ESP-01：ESP8266串口WiFi ESP-01是一款超低功耗的UART-
 
 将ESP8266串口WIFI ESP-01模块正确方向插入USB转ESP-01S     WIFI模块串口测试扩展板上。
 
-    ![](media/91410a61236d00e68e9652b61b4567c3.png)
+![](media/91410a61236d00e68e9652b61b4567c3.png)
 
 先将USB转ESP-01S     WIFI模块串口测试扩展板上的拨码开关拨到UartDownload端，再将USB转ESP-01S     WIFI模块串口测试扩展板插入电脑的USB口。
 
-    ![](media/a325e9270b421dc2c73100ab21c35fc3.jpeg)
+![](media/a325e9270b421dc2c73100ab21c35fc3.jpeg)
 
 安装驱动文件
 
-    这个USB转ESP-01S     WIFI模块串口测试扩展板的USB转串口芯片为CH340，我们需要安装这芯片的驱动，驱动为usb_ch341_3.1.2009.06，我们把该驱动文件放到D盘（即：复制![](media/badc756f45490b9720874874dc989f5f.png)放到D盘），然后开始安装驱动。在不同系统在安装驱动方式大同小异，这里我们在win10系统上开始安装驱动。
+这个USB转ESP-01S     WIFI模块串口测试扩展板的USB转串口芯片为CH340，我们需要安装这芯片的驱动，驱动为usb_ch341_3.1.2009.06，我们把该驱动文件放到D盘（即：复制![](media/badc756f45490b9720874874dc989f5f.png)放到D盘），然后开始安装驱动。在不同系统在安装驱动方式大同小异，这里我们在win10系统上开始安装驱动。
 
 当USB转ESP-01S WIFI模块串口测试扩展板第一次接入你的电脑,     右击桌面上的“我的电脑”—\>“属性”—\>“设备管理器”,     即可看到“USB-Serial”。
 
@@ -2210,8 +3818,7 @@ C.然后点击“浏览计算机以查找驱动程序软件”。
 
 ![](media/4515dc55a1c27647f9eaab3fd324053d.png)
 
-点击“浏览（R）...”找到提供的““usb_ch341_3.1.2009.06””驱动文件。(我这里是将“usb_ch341_3.1.2009.06
-    ”文件放D盘，你也可以把驱动文件夹放在方便的地方也行)
+点击“浏览（R）...”找到提供的““usb_ch341_3.1.2009.06””驱动文件。(我这里是将“usb_ch341_3.1.2009.06”文件放D盘，你也可以把驱动文件夹放在方便的地方也行)
 
 ![](media/5494e57dfc38ef78d0c4ed9676bebec5.png)
 
@@ -2219,7 +3826,7 @@ C.然后点击“浏览计算机以查找驱动程序软件”。
 
 ![](media/b77da8913a0b41b268a48ac9e03a4ce6.png)
 
-驱动安装完成后右键点击“我的电脑”—\>“属性”—\>“设备管理器”,     你可以看到你CH340驱动程序已经成功安装到电脑，如下图。
+驱动安装完成后右键点击“我的电脑”—\>“属性”—\>“设备管理器”, 你可以看到你CH340驱动程序已经成功安装到电脑，如下图。
 
 ![](media/65160f9c0aad6caaf94db7ce50ac65e6.png)
 
@@ -2231,29 +3838,27 @@ C.然后点击“浏览计算机以查找驱动程序软件”。
 
 在Arduino IDE里面进行下载安装：
 
-    A.点击“文件”
-    →“首选项”，在“附加开发板管理器网址：”框中复制粘贴这个地址：http://arduino.esp8266.com/stable/package_esp8266com_index.json，然后点击“好”保存这个地址。
+A.点击“文件”→“首选项”，在“附加开发板管理器网址：”框中复制粘贴这个地址：`http://arduino.esp8266.com/stable/package_esp8266com_index.json`，然后点击“好”保存这个地址。
 
 ![](media/2070dd1d46f6190084bba232667e8e0e.png)
 
 先点击“工具”→“开发板：”，再点击“开发板管理器”进入“开发板管理器”页面，IDE会自动下载相关文件，如下图。
 
-    ![](media/aab6d0692ba09b54abf746660b696243.png)
+![](media/aab6d0692ba09b54abf746660b696243.png)
 
 在“全部”后空格中输入“ESP8266”，然后点击下面搜索内容，选择最新版本进行安装，安装包不大，点击“安装”开始安装相关插件。如下图。（可能会出现下载安装出错，有可能是服务器原因，需要重新点击“安装”就可以了，但由于网络原因，大多用户可能无法搜到esp8266     by esp8266     Community，对于小白而言不推荐使用此方法添加，推荐下面方法2）
 
-    ![](media/cf82149194b4b17da2f968f9ae835c39.png)
+![](media/cf82149194b4b17da2f968f9ae835c39.png)
 
 安装成功后点击“关闭”关闭页面，然后点击“工具”→“开发板：”，你可以在里面查看到各种不同型号ESP8266开发板。选择对应的ESP8266开发板型号和COM口，选中后即可对ESP8266进行编程。
 
-    ![](media/0bad68997d753796bed0c90363c669fd.png)
+![](media/0bad68997d753796bed0c90363c669fd.png)
     
-    ![](media/6206afde171f5d575019401a5cb1cfa6.png)
+![](media/6206afde171f5d575019401a5cb1cfa6.png)
 
 通过工具对ESP8266进行安装：（推荐使用这种方法）
 
-    A.点击“文件”
-    →“首选项”，在“附加开发板管理器网址：”框中复制粘贴这个地址：http://arduino.esp8266.com/stable/package_esp8266com_index.json，然后点击“好”保存这个地址。
+ A.点击“文件” →“首选项”，在“附加开发板管理器网址：”框中复制粘贴这个地址：`http://arduino.esp8266.com/stable/package_esp8266com_index.json`，然后点击“好”保存这个地址。
 
 ![](media/2070dd1d46f6190084bba232667e8e0e.png)
 
@@ -2265,8 +3870,7 @@ B.使用“esp8266一键安装arduino板_2.5.0版.exe”，一键安装，此方
 
 ![](media/26132cf19a193d5ef2396a62de5dab89.png)
 
-在上述工具安装完成之后，重启 Arduino IDE 软件，点击 Arduino
-菜单栏“工具”→“开发板：”  ，可查看到各种不同型号ESP8266开发板。选择对应的ESP8266开发板型号和COM口，选中后即可对ESP8266进行编程。
+在上述工具安装完成之后，重启 Arduino IDE 软件，点击 Arduino菜单栏“工具”→“开发板：”  ，可查看到各种不同型号ESP8266开发板。选择对应的ESP8266开发板型号和COM口，选中后即可对ESP8266进行编程。
 
 ![](media/0bad68997d753796bed0c90363c669fd.png)
 
@@ -2276,21 +3880,139 @@ B.使用“esp8266一键安装arduino板_2.5.0版.exe”，一键安装，此方
 
 注意：打开IDE后，一定要先设置好ESP8266板型和COM口。手机和设备需要连接在同一个WiFi上，如果家里没有WiFi需要打开手机热点共享WiFi，打开手机热点共享WiFi是最好的方法。
 
+
+```C
+/*  
+ * 文件名 : Wifi测试
+ * 描述 : Wifi模块测试Wifi的ip
+ * 作者 : www.keyes-robot.com
+*/
+#include <ESP8266WiFi.h>
+#include <ESP8266mDNS.h>
+#include <WiFiClient.h>
+
+#ifndef STASSID
+//#define STASSID "your-ssid"
+//#define STAPSK  "your-password"
+#define STASSID "ChinaNet-2.4G-0DF0"   //用户的wifi名称
+#define STAPSK  "ChinaNet@233"       //用户的wifi密码
+#endif
+
+const char* ssid = STASSID;
+const char* password = STAPSK;
+
+// 端口80的TCP服务器将响应HTTP需求
+WiFiServer server(80);
+
+void setup(void) {
+  Serial.begin(115200);
+
+  //  连接 WiFi 
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+  Serial.println("");
+
+  // 等待连接
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.print("Connected to ");
+  Serial.println(ssid);
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  // 设置mDNS响应器::
+  // - 在这个例子中。第一个参数是域名
+  //   完全限定域名是“esp8266.local”
+  // - 第二个参数是IP地址
+  //   通过WiFi发送IP地址
+  if (!MDNS.begin("esp8266")) {
+    Serial.println("Error setting up MDNS responder!");
+    while (1) {
+      delay(1000);
+    }
+  }
+  Serial.println("mDNS responder started");
+
+  // 激活TCP (HTTP)服务器
+  server.begin();
+  Serial.println("TCP server started");
+
+  // 将服务器加入MDNS-SD
+  MDNS.addService("http", "tcp", 80);
+}
+
+void loop(void) {
+
+  MDNS.update();
+  Serial.print("Connected to ");
+  Serial.println(ssid);
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+  delay(1000); 
+  // 检查客户端是否已连接
+  WiFiClient client = server.available();
+  if (!client) {
+    return;
+  }
+  Serial.println("");
+  Serial.println("New client");
+
+  // 等待来自客户端的有效数据
+  while (client.connected() && !client.available()) {
+    delay(1);
+  }
+
+  // 读取HTTP需求的第一行
+  String req = client.readStringUntil('\r');
+
+  // HTTP要求的第一行如下所示:“GET /path HTTP/1.1”
+  // 通过查找空格来检索“/path”部分
+  int addr_start = req.indexOf(' ');
+  int addr_end = req.indexOf(' ', addr_start + 1);
+  if (addr_start == -1 || addr_end == -1) {
+    Serial.print("Invalid request: ");
+    Serial.println(req);
+    return;
+  }
+  req = req.substring(addr_start + 1, addr_end);
+  Serial.print("Request: ");
+  Serial.println(req);
+  client.flush();
+
+  String s;
+  if (req == "/") {
+    IPAddress ip = WiFi.localIP();
+    String ipStr = String(ip[0]) + '.' + String(ip[1]) + '.' + String(ip[2]) + '.' + String(ip[3]);
+    s = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<!DOCTYPE HTML>\r\n<html>Hello from ESP8266 at ";
+    s += ipStr;
+    s += "</html>\r\n\r\n";
+    Serial.println("Sending 200");
+  } else {
+    s = "HTTP/1.1 404 Not Found\r\n\r\n";
+    Serial.println("Sending 404");
+  }
+  client.print(s);
+
+  Serial.println("Done with client");
+}
+```
+
 实验现象：
 
-特别注意：需要先将项目代码
+<span style="color: rgb(255, 76, 65);">特别注意：</span> 需要先将项目代码
 
 ![](media/18a5a8dea6bf0248eb84ed745fa8d39c.png)
 
 中的用户Wifi名称和用户Wifi密码改成你们自己的Wifi名称和Wifi密码。
 
-Wifi名称和Wifi密码修改后，确保USB转ESP-01S WIFI模块串口测试扩展板上的拨码开关已经拨到Uart Download
-端，并且也确定USB转ESP-01S WIFI模块串口测试扩展板已经插入电脑的USB口。然后按照前面方法设置ESP8266板型和COM口，IDE右下角会显示对应的ESP8266板型和COM口，再点击![](media/b1feab597beaa43e4293f7cb6d085551.png)将测试代码上传到ESP8266串口WIFI ESP-01模块上，上传成功。（注意：如果上传失败，在板型和COM口没问题下，将USB转ESP-01S WIFI模块串口测试扩展板从电脑的USB口拔下来再次插到电脑的USB口）
+Wifi名称和Wifi密码修改后，确保USB转ESP-01S WIFI模块串口测试扩展板上的拨码开关已经拨到Uart Download端，并且也确定USB转ESP-01S WIFI模块串口测试扩展板已经插入电脑的USB口。然后按照前面方法设置ESP8266板型和COM口，IDE右下角会显示对应的ESP8266板型和COM口，再点击![](media/b1feab597beaa43e4293f7cb6d085551.png)将测试代码上传到ESP8266串口WIFI ESP-01模块上，上传成功。（注意：如果上传失败，在板型和COM口没问题下，将USB转ESP-01S WIFI模块串口测试扩展板从电脑的USB口拔下来再次插到电脑的USB口）
 
 ![](media/1084c969de37f6cc6b64634302791bf7.png)
 
-WIFI实验代码上传成功后，先将USB转ESP-01S WIFI模块串口测试扩展板从电脑的USB口拔下来，再将USB转ESP-01S WIFI模块串口测试扩展板上的拨码开关拨到Flash Boot
-端，然后再次插到电脑的USB口上。打开串口监视器，设置波特率为115200，即可看到你的WIFI信息，如下图所示：
+WIFI实验代码上传成功后，先将USB转ESP-01S WIFI模块串口测试扩展板从电脑的USB口拔下来，再将USB转ESP-01S WIFI模块串口测试扩展板上的拨码开关拨到Flash Boot端，然后再次插到电脑的USB口上。打开串口监视器，设置波特率为115200，即可看到你的WIFI信息，如下图所示：
 
 ![](media/d86715f4fc5bdc64b6b6708bc466d654.png)
 
@@ -2298,7 +4020,7 @@ WIFI实验代码上传成功后，先将USB转ESP-01S WIFI模块串口测试扩�
 
 项目介绍：
 
-    在前面的项目35中，我们已经知道ESP8266串口WIFI     ESP-01模块通过WiFi测试代码得到相关的WiFi信息。那么在这个实验中，我们将使用ESP8266串口WiFi     ESP-01模块通过APP和WiFi来控制多个传感器/模块工作，实现WiFi智能家居的效果。
+在前面的项目35中，我们已经知道ESP8266串口WIFI     ESP-01模块通过WiFi测试代码得到相关的WiFi信息。那么在这个实验中，我们将使用ESP8266串口WiFi     ESP-01模块通过APP和WiFi来控制多个传感器/模块工作，实现WiFi智能家居的效果。
 
 项目元件：
 
@@ -2330,14 +4052,290 @@ ESP8266 代码：
 
 注意：打开Arduino IDE后，一定要先设置好ESP8266板型和COM口。手机和设备需要连接在同一个WiFi上，如果家里没有WiFi需要打开手机热点共享WiFi，打开手机热点共享WiFi是最好的方法。
 
+```C
+/*
+ESP8266_Code
+*/
+// generated by KidsBlock
+#include <Arduino.h>
+#include <ESP8266WiFi.h>
+#include <ESP8266mDNS.h>
+#include <WiFiClient.h>
+//#include <WiFi.h>
+
+#ifndef STASSID
+#define STASSID "ChinaNet-2.4G-0DF0"  //用户的Wifi名称
+#define STAPSK  "ChinaNet@233"       //用户的wifi密码
+#endif
+const char* ssid = STASSID;
+const char* password = STAPSK;
+
+//IPAddress local_IP(192,168,4,22);
+//IPAddress gateway(192,168,4,22);
+//IPAddress subnet(255,255,255,0);
+//
+//const char *ssid = "ESP8266_AP_TEST";
+//const char *password = "12345678";
+
+WiFiServer server(80);
+String unoData = "";
+int ip_flag = 0;
+int ultra_state = 1;
+String ip_str;
+
+
+void setup() {
+  Serial.begin(9600); 
+//   WiFi.mode(WIFI_AP); //设置为AP模式
+//
+//  WiFi.softAPConfig(local_IP, gateway, subnet); //设置AP地址
+//  while(!WiFi.softAP(ssid, password)){}; //开始 AP
+//  Serial.println("AP starting success");
+//
+//  Serial.print("IP address: ");
+//  Serial.println(WiFi.softAPIP()); // 打印IP地址
+//
+//  WiFi.softAPsetHostname("myHostName"); //设置主机名
+//  Serial.print("HostName: ");
+//  Serial.println(WiFi.softAPgetHostname()); //打印主机名
+//
+//  Serial.print("mac Address: ");
+//  Serial.println(WiFi.softAPmacAddress()); //打印mac地址
+
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.print("IP ADDRESS: ");
+  Serial.println(WiFi.localIP());
+  if (!MDNS.begin("esp8266")) {
+    //Serial.println("Error setting up MDNS responder!");
+    while (1) {
+      delay(1000);
+    }
+  }
+ // Serial.println("mDNS responder started");
+  server.begin();
+  //Serial.println("TCP server started");
+  MDNS.addService("http", "tcp", 80);
+  ip_flag = 1;
+}
+
+void loop() {
+  //Serial.println(WiFi.softAPgetStationNum()); //打印客户端连接数
+  if(ip_flag == 1)
+  {
+    for(int i=3; i>0; i--)
+    {
+      Serial.print("IP: ");
+      Serial.print(WiFi.localIP());
+      Serial.println('#');
+      delay(500);
+    }
+    ip_flag = 0;
+    
+  }
+    MDNS.update();
+    WiFiClient client = server.available();
+    if (!client) {
+      return;
+    }
+    //Serial.println("");
+    while (client.connected() && !client.available()) {
+      delay(1);
+    }
+    String req = client.readStringUntil('\r');
+    int addr_start = req.indexOf(' ');
+    int addr_end = req.indexOf(' ', addr_start + 1);
+    if (addr_start == -1 || addr_end == -1) {
+      //Serial.print("Invalid request: ");
+      //Serial.println(req);
+      return;
+    }
+    req = req.substring(addr_start + 1, addr_end);
+    int len_val = String(req).length();
+    String M_req = String(req).substring(0,6);
+    //Serial.println(M_req);
+    if(M_req == "/")
+    {
+      String s_M_req = String(req).substring(5,len_val);
+      Serial.print(s_M_req);
+      Serial.print("#");
+    }
+    if(M_req == "/btn/v")
+    {
+      String s_M_req = String(req).substring(5,len_val);
+      Serial.print(s_M_req);
+      Serial.print("#");
+    }
+    client.flush();
+    String s;
+    if (req == "/") {
+      IPAddress ip = WiFi.localIP();
+      String ipStr = String(ip[0]) + '.' + String(ip[1]) + '.' + String(ip[2]) + '.' + String(ip[3]);
+      s = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<!DOCTYPE HTML>\r\n<html>Hello from ESP8266 at ";
+      s += ipStr;
+      s += "</html>\r\n\r\n";
+      //Serial.println("Sending 200");
+      Serial.println(WiFi.localIP());
+      Serial.write('*');
+      client.println(WiFi.localIP());
+      ip_flag = 0;
+    }
+    else if(req == "/btn/0")
+    {
+      Serial.write('a');
+      client.println("turn on the relay");
+    }
+    else if(req == "/btn/1")
+    {
+      Serial.write('b');
+      client.println("turn off the relay");
+    }
+    else if(req == "/btn/2")
+    {
+      Serial.write('c');
+      client.println("Bring the steering gear over 180 degrees");
+    }
+    else if(req == "/btn/3")
+    {
+      Serial.write('d');
+      client.println("Bring the steering gear over 0 degrees");
+    }
+    else if(req == "/btn/4")
+    {
+      Serial.write('e');
+      client.println("esp8266 already turn on the fans");
+    }
+    else if(req == "/btn/5")
+    {
+      Serial.write('f');
+      client.println("esp8266 already turn off the fans");
+    }
+    else if(req == "/btn/6")
+    {
+      Serial.write('g');
+      while(Serial.available() > 0)
+      {
+        unoData = Serial.readStringUntil('#');
+        client.println(unoData);
+      }
+    }
+    else if(req == "/btn/7")
+    {
+      Serial.write('h');
+      client.println("turn off the ultrasonic");
+    }
+    else if(req == "/btn/8")
+    {
+      Serial.write('i');
+      while(Serial.available() > 0)
+      {
+        unoData = Serial.readStringUntil('#');
+        client.println(unoData);
+        //client.flush();
+      }
+    }
+    else if(req == "/btn/9")
+    {
+      Serial.write('j');
+      client.println("turn off the temperature");
+    }
+    else if(req == "/btn/10")
+    {
+      Serial.write('k');
+      while(Serial.available() > 0)
+      {
+        unoData = Serial.readStringUntil('#');
+        client.println(unoData);
+        //client.flush();
+      }
+    }
+    else if(req == "/btn/11")
+    {
+      Serial.write('l');
+      client.println("turn off the humidity");
+    }
+    else if(req == "/btn/12")
+    {
+      Serial.write('m');
+      client.println(F("m"));
+    }
+    else if(req == "/btn/13")
+    {
+      Serial.write('n');
+      client.println(F("n"));
+    }
+    else if(req == "/btn/14")
+    {
+      Serial.write('o');
+      client.println(F("o"));
+    }
+    else if(req == "/btn/15")
+    {
+      Serial.write('p');
+      client.println(F("p"));
+    }
+    else if(req == "/btn/16")
+    {
+      Serial.write('q');
+      client.println(F("q"));
+    }
+    else if(req == "/btn/17")
+    {
+      Serial.write('r');
+      client.println(F("r"));
+    }
+    else if(req == "/btn/18")
+    {
+      Serial.write('s');
+      client.println(F("s"));
+    }
+    else if(req == "/btn/19")
+    {
+      Serial.write('t');
+      client.println(F("t"));
+    }
+    else if(req == "/btn/20")
+    {
+      Serial.write('u');
+      client.println(F("u"));
+    }
+    else if(req == "/btn/21")
+    {
+      Serial.write('v');
+      client.println(F("v"));
+    }
+    else if(req == "/btn/22")
+    {
+      Serial.write('w');
+      client.println(F("w"));
+    }
+    else if(req == "/btn/23")
+    {
+      Serial.write('x');
+      client.println(F("x"));
+    }
+    else {
+      //s = "HTTP/1.1 404 Not Found\r\n\r\n";
+      //Serial.println("Sending 404");
+    }
+
+    client.print(F("IP : "));
+    client.println(WiFi.localIP());
+}
+
+```
+
 特别注意：需要先将项目代码
 
 ![](media/18a5a8dea6bf0248eb84ed745fa8d39c.png)
 
 中的用户Wifi名称和用户Wifi密码改成你们自己的Wifi名称和Wifi密码。
 
-Wifi名称和Wifi密码修改后，确保USB转ESP-01S WiFi模块串口测试扩展板上的拨码开关已经拨到Uart Download
-端，并且也确定USB转ESP-01S WIFI模块串口测试扩展板已经插入电脑的USB口。然后按照项目35中的方法设置ESP8266板型和COM口，IDE右下角会显示对应的ESP8266板型和COM口，再点击![](media/b1feab597beaa43e4293f7cb6d085551.png)将ESP8266
+Wifi名称和Wifi密码修改后，确保USB转ESP-01S WiFi模块串口测试扩展板上的拨码开关已经拨到Uart Download端，并且也确定USB转ESP-01S WIFI模块串口测试扩展板已经插入电脑的USB口。然后按照项目35中的方法设置ESP8266板型和COM口，IDE右下角会显示对应的ESP8266板型和COM口，再点击![](media/b1feab597beaa43e4293f7cb6d085551.png)将ESP8266
 代码上传到ESP8266串口WIFI ESP-01模块上，上传成功。（注意：如果上传失败，在板型和COM口没问题情况下，将USB转ESP-01S WIFI模块串口测试扩展板从电脑的USB口拔下来再次插到电脑的USB口）
 
 ![](media/2acfe216634719a78a57a09224f487fa.png)
@@ -2369,13 +4367,146 @@ WiFi Smart Home项目代码：
 
 注意：打开Arduino IDE后，一定要先设置好树莓派Pico板的板型和COM口。如果家里没有WiFi需要打开手机热点共享WiFi.
 
+
+```C
+/*  
+ * 文件名 : WiFi 智能家居.
+ * 描述 : WiFi APP控制多个传感器/模块工作，实现WiFi智能家居效果.
+ * 作者 : www.keyes-robot.com
+*/
+#include <dht.h>
+dht DHT;
+
+#include<Servo.h>
+Servo myservo;
+
+char wifiData;
+int distance1;
+String dis_str;
+
+const int dhtPin = 2;
+const int relayPin = 27;
+const int IN1 = 3;
+const int IN2 = 5;
+const int trigPin = 17;
+const int echoPin = 16;
+const int servoPin = 9;
+
+int ip_flag = 1;
+int ultra_state = 1;
+int temp_state = 1;
+int humidity_state = 1;
+
+void setup() {
+  Serial1.begin(9600);
+  pinMode(dhtPin, INPUT);
+  pinMode(relayPin, OUTPUT);
+  pinMode(servoPin, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+
+  //turn off the fan
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+
+  digitalWrite(relayPin, LOW); //关闭继电器
+
+  myservo.attach(9);
+
+  //dht.begin();
+}
+
+void loop() {
+  int chk = DHT.read11(dhtPin);
+  if(Serial1.available() > 0)
+  {
+    wifiData = Serial1.read();
+    Serial.print(wifiData);
+    if(wifiData == '#')
+    {
+      ip_flag = 0;
+    }
+    
+    if(ip_flag == 1)
+    {
+      //String ip_addr = Serial.readStringUntil('#');
+      Serial.print(wifiData);
+      if(wifiData == '#')
+      {
+        Serial.println("");
+      }
+      delay(100);
+    }
+  }
+
+  switch(wifiData)
+    {
+      case 'a': digitalWrite(relayPin, HIGH); break;
+      case 'b': digitalWrite(relayPin, LOW); break;
+      case 'c': myservo.write(180); delay(200); break;
+      case 'd': myservo.write(0); delay(200); break;
+      case 'e': digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW); break;
+      case 'f': digitalWrite(IN1, LOW); digitalWrite(IN2, LOW); break;
+      case 'g': while(ultra_state>0)
+                  {
+                    Serial.print("Distance = "); 
+                    Serial.print(checkdistance());
+                    Serial.println("#"); 
+                    Serial1.print("Distance = "); 
+                    Serial1.print(checkdistance());
+                    Serial1.println("#"); 
+                    ultra_state = 0;
+                  }
+                  break;
+      case 'h': ultra_state = 1; break;
+      case 'i': while(temp_state>0)
+                {
+                  Serial.print("Temperature = "); 
+                  Serial.print(DHT.temperature,1);
+                  Serial.println("#");
+                  Serial1.print("Temperature = "); 
+                  Serial1.print(DHT.temperature,1);
+                  Serial1.println("#");
+                  temp_state = 0;
+                }
+                break;
+      case 'j': temp_state = 1; break;
+      case 'k': while(humidity_state > 0)
+                {
+                  Serial.print("Humidity = "); 
+                  Serial.print(DHT.humidity,1);
+                  Serial.println("#");
+                  Serial1.print("Humidity = "); 
+                  Serial1.print(DHT.humidity,1);
+                  Serial1.println("#");
+                  humidity_state = 0;
+                }
+                break;
+      case 'l': humidity_state = 1; break;
+    }
+  
+}
+
+int checkdistance() {
+  digitalWrite(17, LOW);
+  delayMicroseconds(2);
+  digitalWrite(17, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(17, LOW);
+  int distance = pulseIn(16, HIGH) / 58;
+  
+  delay(10);
+  return distance;
+}
+```
+
 实现现象：
 
 特别注意：上传项目代码前，需要先将连接到树莓派Pico板的扩展板上的TX和RX的杜邦线先拔下来，要不然代码上传可能不成功。
 
-然后点击Arduino IDE菜单栏的"工具" →
-"开发板："，选择“Raspberry Pi Pico”，选择正确的COM端口，最后将WiFi
-智能家居项目代码上传至树莓派Pico板。上传代码成功后，再将接在ESP8266串口WIFI ESP-01模块上的TX杜邦线另一端接到树莓派Pico板的扩展板上的RX(GP1)引脚，RX的杜邦线另一端接到树莓派Pico板的扩展板上的TX(GP0)引脚。点击![](media/c26260f4b82d19ca26aeafe9722c59ee.png)打开串口监视器窗口，将波特率设置为9600。这样，串口监视器就显示此时你们WiFi的IP地址。（WiFi的IP地址有时候会改变，如果原来的IP地址不行，需要重新检测WiFi的IP地址）
+然后点击Arduino IDE菜单栏的"工具" →"开发板："，选择“Raspberry Pi Pico”，选择正确的COM端口，最后将WiFi智能家居项目代码上传至树莓派Pico板。上传代码成功后，再将接在ESP8266串口WIFI ESP-01模块上的TX杜邦线另一端接到树莓派Pico板的扩展板上的RX(GP1)引脚，RX的杜邦线另一端接到树莓派Pico板的扩展板上的TX(GP0)引脚。点击![](media/c26260f4b82d19ca26aeafe9722c59ee.png)打开串口监视器窗口，将波特率设置为9600。这样，串口监视器就显示此时你们WiFi的IP地址。（WiFi的IP地址有时候会改变，如果原来的IP地址不行，需要重新检测WiFi的IP地址）
 
 ![](media/62c973921a23e69e9a7f93ff30887d86.png)
 
@@ -2383,11 +4514,37 @@ WiFi Smart Home项目代码：
 
 ![](media/fc090c9a718831aaf6a20421d8c9796e.png)
 
-安卓系统设备（手机/iPad）APP：
+**APP下载安装**
 
-现将文件夹中的keyes wifi.apk文件转移到安卓系统手机或平板电脑上，点击keyes wifi.apk文件进入安装页面，点击“安装”按钮，然后点击“继续安装”按钮，过一会儿，安装完成后点击“打开”按钮就可以进入APP界面。
+⚠️ **<span style="color: rgb(255, 76, 65);">特别提醒：</span>如果前面已经下载安装了APP，则这一步骤可以直接跳过。**
 
-![](media/2f4af1759220ea58ba5ce3e10e562772.png)
+**步骤1：** 在手机/平板浏览器的搜索框中输入官网链接： www.keyes-robot.com
+
+![](media/wyx1.png)
+
+**步骤2：** 找到 “**资料中心**”，并且点击它。
+
+![](media/wyx2.png)
+
+**步骤3：** 在页面找到 “**APP下载**”选项，并且点击它。
+
+![](media/wyx3.png)
+
+**步骤4：** 在 “**APP下载**” 页面，找到 “**keyes wifi**”。
+
+![](media/wyx4.png)
+
+**步骤5：** 根据自己的手机/平板系统选择对应的APP下载安装。选择如下：
+
+![](media/wyx7.png)
+
+**安卓系统**
+
+a\. 点击 "**点击下载**" 按钮，下载对应的 "**keyes wifi.apk**" 文件。
+
+![](media/wyx5.png)
+
+b\. 按照安装提示进行安装。
 
 ![](media/d620452a9d6188cb3946269510df5ae0.png)
 
@@ -2397,21 +4554,29 @@ WiFi Smart Home项目代码：
 
 ![](media/27708677feed5d3acfb062d9222bacda.png)
 
+c\. 下载安装后，单击打开，出现如下图界面。
+
 ![](media/c49919d6ee38ca619aaf90aa9b94d4fc.png)
 
-在WiFi按钮前面的文本框中输入检测到的WIFI IP地址（例如，上面串口监视器检测到的IP地址：192.168.0.119），再点击WIFI按钮，“403 Forbidden”或“网页无法打开”就会变成“192.168.0.119”。这样，就说明APP已经连接上了WiFi。
 
-![](media/8313b73eaff11b2bfc2f854cefe0a9f8.jpeg)
+**苹果系统**
 
-IOS系统设备（手机/iPad）APP
+a\. 点击 "**跳转APP Store**" 按钮，跳转到 APP Store ![](media/APP-Store.png)
 
-a.打开App Store。
 
-![](media/27924fdb3d67692df7c63d8d0fb72287.png)
+![](media/wyx6.png)
 
-b.在搜索框输入keyes link，点击搜索，出现下载界面，点击“![](media/962a57f92b78eea1f0e3e81463497a9c.png)”，就可以下载安装keyes link的APP。接下来的操作和安卓系统类似的，可以参考上面安卓系统的步骤进行操作。
 
-注意：点击APP上的按钮，ESP8266串口WIFI ESP-01模块上的蓝色指示灯会闪烁，出现指示灯闪烁最亮的时候说明APP已经连接上WIFI。
+b\. 在 APP Store 上搜索 **keyes wifi** ，选择 **keyes wifi** ，然后点击 “**获取**”，下载安装APP即可。
+
+![](media/WASQ11.png)
+
+c\. 下载安装后, 单击“**打开**”，出现如下图界面。
+
+![Img](./media/img-20251211100456.png)
+
+
+<span style="color: rgb(255, 76, 0);">**注意：点击APP上的按钮，ESP8266串口WIFI ESP-01模块上的蓝色指示灯会闪烁，出现指示灯闪烁最亮的时候说明APP已经连接上WIFI。**</span>
 
 APP已经连接上了WIFI后，开始进行如下操作：
 
