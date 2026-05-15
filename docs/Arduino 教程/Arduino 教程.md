@@ -159,6 +159,30 @@ F - 用于从板接收串行数据并将串行数据发送到板的串行监视
 
 ![Img](./media/img-20251210143823.png)
 
+项目代码：
+
+```C
+/*
+ * 文件名 : Hello World
+ * 描述 : 输入字母R，串口显示“Hello World”.
+ * 作者 : www.keyes-robot.com
+*/
+char val;// 定义变量“val”
+void setup()
+{
+Serial.begin(115200);// 设置波特率为115200
+}
+void loop()
+{
+  if (Serial.available() > 0) {
+    val=Serial.read();// 读取并赋值给变量val
+    if(val=='R')// 检查输入的字母“R”
+    {  // 如果是这样的话,    
+     Serial.println("Hello World!");// 显示“Hello World !”.
+    }
+  }
+}
+```
 在上传项目代码到树莓派Pico板之前，请检查Arduino IDE的配置。
 
 单击“工具”，确认板型和端口如下所示：
@@ -201,6 +225,28 @@ F - 用于从板接收串行数据并将串行数据发送到板的串行监视
 
 树莓派Pico板上的板载LED是由GP25控制，当GP25输出高电平时，LED点亮;当输出低时，LED灯关闭。
 
+```C
+/*
+ * 文件名 : 板载灯闪烁
+ * 描述 : 使led闪烁.
+ * 作者 : www.keyes-robot.com
+*/
+#define LED_BUILTIN 25
+
+// 复位或单板上电时，设置功能运行一次
+void setup() {
+  // 初始化数字引脚LED_BUILTIN作为输出.
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+// 循环函数会一直循环下去
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH);   // 打开LED (HIGH为高电平)
+  delay(1000);                       // 延时1秒
+  digitalWrite(LED_BUILTIN, LOW);    // 关闭LED(LOW为低电平)
+  delay(1000);                       // 延时1秒
+}
+```
 在上传项目代码到树莓派Pico板之前，请检查Arduino IDE的配置。
 
 单击“工具”，确认板型和端口如下所示：
@@ -351,6 +397,30 @@ LED是一种被称为“发光二极管”的半导体，是一种由半导体�
 
 根据电路图，当树莓派Pico板的GP16输出高电平时，LED点亮；当输出低电平时，LED灯关闭。因此，我们可以通过控制GP16重复输出高低电平，使LED反复闪烁。
 
+```C
+/*
+ * 文件名 : 外接灯闪烁
+ * 描述 : 使led闪烁.
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_LED   16   //定义led引脚
+
+// 复位或单板上电时，设置功能运行一次
+void setup() {
+  // 初始化数字引脚LED作为输出.
+  pinMode(PIN_LED, OUTPUT);
+}
+
+// 循环函数会一直循环下去
+void loop() {
+  digitalWrite(PIN_LED, HIGH);   // 打开LED (HIGH为高电平)
+  delay(500);                       // 延时0.5秒
+  digitalWrite(PIN_LED, LOW);    // 关闭LED (LOW为低电平)
+  delay(500);                       // 延时0.5秒
+}
+
+```
+
 在上传项目代码到树莓派Pico板之前，请检查Arduino IDE的配置。
 
 单击“工具”，确认板型和端口如下所示：
@@ -419,6 +489,30 @@ PWM占空比越长，输出功率越高。既然我们了解了这种关系，�
 项目代码：
 
 本项目设计使GP16输出PWM，脉宽由0%逐渐增加到100%，再由100%逐渐减小到0%。
+
+```C
+/*
+ * 文件名 : 呼吸灯
+ * 描述 : 让led灯像呼吸一样忽隐忽现.
+ * 作者 : www.keyes-robot.com
+*/
+#define PIN_LED   16   //定义led引脚
+
+void setup() {
+  pinMode(PIN_LED, OUTPUT);
+}
+
+void loop() {
+  for (int i = 0; i < 255; i++) { //使LED逐渐点亮
+    analogWrite(PIN_LED, i);
+    delay(5);
+  }
+  for (int i = 255; i > -1; i--) {  //使LED逐渐熄灭
+    analogWrite(PIN_LED, i);
+    delay(5);
+  }
+}
+```
 
 在上传项目代码到树莓派Pico板之前，请检查Arduino IDE的配置。
 
@@ -3252,7 +3346,7 @@ void loop() {
 |  ![](media/8eeca2083cc744159c642a792b53eba2.jpeg)  |  ![](media/2762753d227ba94de9f6e5c9ff79fe53.png)  |  ![](media/eb57ae291b76e14c4a3d55966c00f245.png)  |  ![](media/284218a1b5f1d347b1fd3c3119a34695.jpeg)  |
 |-|-|-|-|
 | 树莓派Pico板*1 | 树莓派Pico板的扩展板*1 | RFID-MFRC522模块*1 | 钥匙扣*1 |
-|  ![](media/e615c2849ce15bdfc8e26432004124ec.png)  |  ![](media/cd0bc424e9916881a1a903793821a042.png)  |  ![](media/284218a1b5f1d347b1fd3c3119a34695.jpeg)  |  ![](media/7dcbd02995be3c142b2f97df7f7c03ce.png)  |
+|  ![](media/e615c2849ce15bdfc8e26432004124ec.png)  |  ![](media/cd0bc424e9916881a1a903793821a042.png)  | ![Img](./media/img-20260515092951.png)|  ![](media/7dcbd02995be3c142b2f97df7f7c03ce.png)  |
 | 4P 转杜邦线母单20厘米*1 | Servo*1 | 白卡*1 | USB 线*1 |
 
 元件知识：
@@ -3593,8 +3687,8 @@ void loop() {
 |  ![](media/17098ffd05750eb6b34eb75b82fbb37a.jpeg)  |  ![](media/2762753d227ba94de9f6e5c9ff79fe53.png)  |  ![](media/88e6b057fb4b0c576c9b2111d15b26e5.png)  |  ![](media/f1a86fc81ab4b043263ce7e01e14d470.png)  |  ![](media/098a2730d0b0a2a4b2079e0fc87fd38b.png)  |
 |-|-|-|-|-|
 | 树莓派Pico板*1 | 树莓派Pico板的扩展板*1 | 红外接收器 *1 | RGB LED*1 | 220Ω电阻*3 |
-|  ![](media/31ab42dc405244fa383c76b57538a6cb.png)  |  ![](media/d1ea1bb2b2749820cab389d5b85b838b.png)  |  ![](media/a22dac8c5edbe90e867cbb04769d1816.png)  |  ![](media/e9a8d050105397bb183512fb4ffdd2f6.png)  |  ![](media/7dcbd02995be3c142b2f97df7f7c03ce.png)  |
-| 红外遥控器*1 | 无源蜂鸣器*1 | 10KΩ电阻*1 | 跳线若干 | USB 线*1 |
+|  ![](media/31ab42dc405244fa383c76b57538a6cb.png)  |  ![](media/d1ea1bb2b2749820cab389d5b85b838b.png)  |  ![](media/e9a8d050105397bb183512fb4ffdd2f6.png)  |  ![](media/7dcbd02995be3c142b2f97df7f7c03ce.png)  | |
+| 红外遥控器*1 | 无源蜂鸣器*1 |  跳线若干 | USB 线*1 | |
 |  ![](media/e380dd26e4825be9a768973802a55fe6.png)  |  ![](media/9197d4aff9356c585b7ef68e33a6881d.png)  |  ![](media/098a2730d0b0a2a4b2079e0fc87fd38b.png)  |  ![](media/3ac518b4caa5086041545c60c7a6a2d1.png)  |  |
 | 面包板*1 | NPN型晶体管(S8050)*1 | 1kΩ电阻*1 | 公对母杜邦线若干 |  |
 

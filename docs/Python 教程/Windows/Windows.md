@@ -1523,8 +1523,8 @@ PNP晶体管 NPN晶体管
 |![](media/b1265f71184b5d144248ea3e847a18c9.jpeg)|![](media/770714fabf173efb3ef34d9f84d09798.png)|![](media/2762753d227ba94de9f6e5c9ff79fe53.png)|
 |-|-|-|
 |树莓派Pico板*1|LCD_128X32_DOT*1|树莓派Pico板的扩展板*1|
-|![](media/e615c2849ce15bdfc8e26432004124ec.png)|![](media/7dcbd02995be3c142b2f97df7f7c03ce.png)||
-|4P 转杜邦线母单10厘米*1|USB 线*1||
+|![](media/e615c2849ce15bdfc8e26432004124ec.png)|![](media/7dcbd02995be3c142b2f97df7f7c03ce.png)| |
+|4P 转杜邦线母单10厘米*1|USB 线*1| |
 
 3.元件知识：
 
@@ -2689,7 +2689,7 @@ HC-SR04超声波传感器有四个引脚：Vcc、Trig、Echo和GND。Vcc引脚�
 |![](media/8eeca2083cc744159c642a792b53eba2.jpeg)|![](media/2762753d227ba94de9f6e5c9ff79fe53.png)|![](media/eb57ae291b76e14c4a3d55966c00f245.png)|![](media/284218a1b5f1d347b1fd3c3119a34695.jpeg)|
 |-|-|-|-|
 |树莓派Pico板*1|树莓派Pico板的扩展板*1|RFID-MFRC522模块*1|钥匙扣*1|
-|![](media/e615c2849ce15bdfc8e26432004124ec.png)|![](media/cd0bc424e9916881a1a903793821a042.png)|![](media/284218a1b5f1d347b1fd3c3119a34695.jpeg)|![](media/7dcbd02995be3c142b2f97df7f7c03ce.png)|
+|![](media/e615c2849ce15bdfc8e26432004124ec.png)|![](media/cd0bc424e9916881a1a903793821a042.png)|![Img](./media/img-20260515093033.png)|![](media/7dcbd02995be3c142b2f97df7f7c03ce.png)|
 |4P 转杜邦线母单20厘米*1|Servo*1|白卡*1|USB 线*1|
 
 3. 元件知识：
@@ -2899,8 +2899,8 @@ RFID-RC522模块：MFRC522是一个高度集成的读取/写入器IC，用于13.
 |![](media/17098ffd05750eb6b34eb75b82fbb37a.jpeg)|![](media/2762753d227ba94de9f6e5c9ff79fe53.png)|![](media/88e6b057fb4b0c576c9b2111d15b26e5.png)|![](media/f1a86fc81ab4b043263ce7e01e14d470.png)|![](media/098a2730d0b0a2a4b2079e0fc87fd38b.png)|
 |-|-|-|-|-|
 |树莓派Pico板*1|树莓派Pico板的扩展板*1|红外接收器 *1|RGB LED*1|220Ω电阻*3|
-|![](media/31ab42dc405244fa383c76b57538a6cb.png)|![](media/d1ea1bb2b2749820cab389d5b85b838b.png)|![](media/a22dac8c5edbe90e867cbb04769d1816.png)|![](media/e9a8d050105397bb183512fb4ffdd2f6.png)|![](media/7dcbd02995be3c142b2f97df7f7c03ce.png)|
-|红外遥控器*1|无源蜂鸣器*1|10KΩ电阻*1|跳线若干|USB 线*1|
+|![](media/31ab42dc405244fa383c76b57538a6cb.png)|![](media/d1ea1bb2b2749820cab389d5b85b838b.png)|![](media/e9a8d050105397bb183512fb4ffdd2f6.png)|![](media/7dcbd02995be3c142b2f97df7f7c03ce.png)|  |
+|红外遥控器*1|无源蜂鸣器*1|跳线若干|USB 线*1|  |
 |![](media/e380dd26e4825be9a768973802a55fe6.png)|![](media/9197d4aff9356c585b7ef68e33a6881d.png)|![](media/098a2730d0b0a2a4b2079e0fc87fd38b.png)|![](media/3ac518b4caa5086041545c60c7a6a2d1.png)||
 |面包板*1|NPN型晶体管(S8050)*1|1kΩ电阻*1|公对母杜邦线若干||
 
@@ -2924,7 +2924,7 @@ RFID-RC522模块：MFRC522是一个高度集成的读取/写入器IC，用于13.
 
 我们按照下面接线图将红外接收元件连接到树莓派Pico板。
 
-![](media/b9a3bd9b4366bc22d72ec6788a39e018.png)
+![](media/240a9b2efcdd0c0e7099ec5b69beaca6.png)
 
 ![](media/5a132241d4bc918d86182d2a4b232ed9.png)
 
